@@ -1,0 +1,26 @@
+{
+  "Tailwind Base": {
+    "prefix": "@base",
+    "body": ["@tailwind base;"],
+    "description": "Tailwind base styles"
+  },
+  "Tailwind Components": {
+    "prefix": "@components",
+    "body": ["@tailwind components;"],
+    "description": "Tailwind component styles"
+  },
+  "Tailwind Utilities": {
+    "prefix": "@utilities",
+    "body": ["@tailwind utilities;"],
+    "description": "Tailwind utility styles"
+  },
+  "Tailwind Layer": {
+    "prefix": "@layer",
+    "body": [
+      "@layer ${1:base|components|utilities} {",
+      "\t$0",
+      "}"
+    ],
+    "description": "Tailwind layer definition"
+  }
+} 
