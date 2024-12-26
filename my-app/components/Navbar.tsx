@@ -23,23 +23,19 @@ const Navbar = () => {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  const navBackground = scrolled
-    ? isDarkBackground
+  const navBackground = isDarkBackground
+    ? scrolled
       ? 'bg-navy-blue shadow-lg'
-      : 'bg-white shadow-lg'
-    : 'bg-transparent'
+      : 'bg-transparent'
+    : 'bg-white shadow-lg'
 
   const textColor = isDarkBackground
     ? 'text-white'
-    : scrolled
-    ? 'text-gray-900'
-    : 'text-navy-blue'
+    : 'text-gray-900'
 
   const linkColor = isDarkBackground
     ? 'text-white hover:text-gold'
-    : scrolled
-    ? 'text-gray-800 hover:text-navy-blue'
-    : 'text-navy-blue hover:text-gold'
+    : 'text-gray-800 hover:text-navy-blue'
 
   return (
     <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${navBackground}`}>
@@ -89,7 +85,7 @@ const Navbar = () => {
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.3 }}
-          className={`md:hidden ${scrolled ? (isDarkBackground ? 'bg-navy-blue' : 'bg-white') : 'bg-transparent backdrop-blur-md'}`}
+          className={`md:hidden ${isDarkBackground ? (scrolled ? 'bg-navy-blue' : 'bg-transparent backdrop-blur-md') : 'bg-white'}`}
         >
           <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
             {['About', 'Services', 'Success Stories', 'Future Tech Forums', 'Resources', 'Tech Newsletter', 'Contact'].map((item) => (
