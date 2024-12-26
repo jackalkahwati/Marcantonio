@@ -10,38 +10,24 @@ export default function Hero() {
   useEffect(() => {
     const video = videoRef.current
     if (video) {
-      // Log video element state
-      console.log('Video element:', {
-        readyState: video.readyState,
-        paused: video.paused,
-        currentSrc: video.currentSrc,
-        error: video.error
-      })
-
       const playVideo = async () => {
         try {
           await video.play()
-          console.log('Video started playing')
         } catch (error) {
           console.error('Video playback error:', error)
         }
       }
 
-      const handleLoadedData = () => {
-        console.log('Video loaded')
+      // Play video when it's loaded
+      if (video.readyState >= 3) {
         playVideo()
+      } else {
+        video.addEventListener('loadeddata', playVideo)
       }
 
-      const handleError = () => {
-        console.error('Video error:', video.error)
-      }
-
-      video.addEventListener('loadeddata', handleLoadedData)
-      video.addEventListener('error', handleError)
-
+      // Cleanup
       return () => {
-        video.removeEventListener('loadeddata', handleLoadedData)
-        video.removeEventListener('error', handleError)
+        video.removeEventListener('loadeddata', playVideo)
         video.pause()
       }
     }
@@ -57,12 +43,13 @@ export default function Hero() {
           playsInline
           muted 
           loop
+          preload="auto"
           poster="/videos/hero-poster.jpg"
         >
           <source src="/videos/hero.mp4" type="video/mp4" />
           Your browser does not support the video tag.
         </video>
-        <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-black/50" />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/60 to-black/40" />
       </div>
 
       <div className="relative container mx-auto px-4 h-screen flex flex-col justify-center items-start">
