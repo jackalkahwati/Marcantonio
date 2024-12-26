@@ -2,16 +2,15 @@
   "css.validate": false,
   "less.validate": false,
   "scss.validate": false,
-  "tailwindCSS.emmetCompletions": true,
   "editor.quickSuggestions": {
-    "strings": "on"
+    "strings": true
   },
-  "editor.inlineSuggest.enabled": true,
-  "editor.formatOnSave": true,
-  "files.associations": {
-    "*.css": "postcss"
-  },
-  "editor.codeActionsOnSave": {
-    "source.fixAll": "explicit"
+  "tailwindCSS.experimental.classRegex": [
+    ["cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"],
+    ["cn\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"]
+  ],
+  "tailwindCSS.includeLanguages": {
+    "typescript": "javascript",
+    "typescriptreact": "javascript"
   }
 } 
