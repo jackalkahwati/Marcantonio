@@ -3,57 +3,53 @@
   "atDirectives": [
     {
       "name": "@tailwind",
-      "description": "Use the @tailwind directive to insert Tailwind's base, components, utilities, and screens styles into your CSS.",
+      "description": "Use the @tailwind directive to insert Tailwind's base, components, utilities styles.",
       "references": [
         {
           "name": "Tailwind Documentation",
           "url": "https://tailwindcss.com/docs/functions-and-directives#tailwind"
         }
-      ]
+      ],
+      "syntax": "@tailwind <base|components|utilities>;"
     },
     {
       "name": "@layer",
-      "description": "Use the @layer directive to tell Tailwind which layer a set of custom styles belong to.",
+      "description": "Use @layer to organize custom styles into layers.",
       "references": [
         {
           "name": "Tailwind Documentation",
           "url": "https://tailwindcss.com/docs/functions-and-directives#layer"
         }
-      ]
+      ],
+      "syntax": "@layer <base|components|utilities> { ... }"
     },
     {
       "name": "@apply",
-      "description": "Use @apply to inline any existing utility classes into your own custom CSS.",
+      "description": "Use @apply to inline Tailwind utility classes.",
       "references": [
         {
           "name": "Tailwind Documentation",
           "url": "https://tailwindcss.com/docs/functions-and-directives#apply"
         }
-      ]
+      ],
+      "syntax": "@apply <utilities>;"
+    },
+    {
+      "name": "@config",
+      "description": "Use @config to specify a custom Tailwind config file.",
+      "syntax": "@config \"<path-to-config>\";"
+    },
+    {
+      "name": "@variants",
+      "description": "Use @variants to generate utilities for different variants.",
+      "syntax": "@variants <variants> { ... }"
     }
   ],
   "properties": [
     {
-      "name": "theme",
-      "description": "Access Tailwind theme values using the theme() function",
-      "references": [
-        {
-          "name": "Tailwind Documentation",
-          "url": "https://tailwindcss.com/docs/functions-and-directives#theme"
-        }
-      ]
-    }
-  ],
-  "pseudoClasses": [
-    {
-      "name": "dark",
-      "description": "Style elements when dark mode is enabled",
-      "references": [
-        {
-          "name": "Tailwind Documentation",
-          "url": "https://tailwindcss.com/docs/dark-mode"
-        }
-      ]
+      "name": "@apply",
+      "description": "Apply Tailwind utility classes",
+      "values": []
     }
   ]
-} 
+}

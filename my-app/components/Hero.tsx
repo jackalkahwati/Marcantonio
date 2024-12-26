@@ -45,6 +45,8 @@ export default function Hero() {
           loop
           preload="auto"
           poster="/videos/hero-poster.jpg"
+          onError={(e) => console.error('Video error:', e)}
+          onLoadedData={() => console.log('Video loaded successfully')}
         >
           <source src="/videos/hero.mp4" type="video/mp4" />
           Your browser does not support the video tag.
@@ -147,4 +149,3 @@ export default function Hero() {
     </div>
   )
 }
-

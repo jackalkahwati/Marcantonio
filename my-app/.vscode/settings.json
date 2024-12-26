@@ -1,21 +1,16 @@
 {
   "css.validate": false,
-  "scss.validate": false,
-  "less.validate": false,
-  "stylelint.validate": ["css", "postcss"],
+  "editor.formatOnSave": true,
   "files.associations": {
-    "*.css": "css"
+    "*.css": "postcss"
   },
   "editor.quickSuggestions": {
     "strings": true
   },
-  "editor.formatOnSave": true,
-  "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "css.lint.unknownAtRules": "ignore",
-  "css.lint.validProperties": [
-    "composes",
-    "@apply",
-    "@tailwind",
-    "@layer"
-  ]
-} 
+  "tailwindCSS.validate": true,
+  "tailwindCSS.experimental.classRegex": [
+    ["cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"],
+    ["cn\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"]
+  ],
+  "postcss.validate": true
+}
