@@ -1,23 +1,23 @@
 {
   "css.validate": false,
-  "less.validate": false,
   "scss.validate": false,
-  "files.associations": {
-    "*.css": "postcss"
-  },
+  "less.validate": false,
   "editor.quickSuggestions": {
     "strings": true
   },
   "editor.formatOnSave": true,
   "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "[postcss]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  "cssLanguageServer.customData": [".vscode/css-data.json"],
+  "cssLanguageServer.validate": false,
+  "files.associations": {
+    "*.css": "css"
   },
+  "tailwindCSS.experimental.classRegex": [
+    ["cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"],
+    ["cn\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"]
+  ],
   "tailwindCSS.includeLanguages": {
     "typescript": "javascript",
-    "typescriptreact": "javascript",
-    "postcss": "css"
-  },
-  "tailwindCSS.validate": true,
-  "css.customData": [".vscode/css-data.json"]
+    "typescriptreact": "javascript"
+  }
 } 
