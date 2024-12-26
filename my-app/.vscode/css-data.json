@@ -30,44 +30,28 @@
           "url": "https://tailwindcss.com/docs/functions-and-directives#apply"
         }
       ]
-    },
+    }
+  ],
+  "properties": [
     {
-      "name": "@config",
-      "description": "Use @config to specify which config file Tailwind should use when compiling that CSS file.",
+      "name": "theme",
+      "description": "Access Tailwind theme values using the theme() function",
       "references": [
         {
           "name": "Tailwind Documentation",
-          "url": "https://tailwindcss.com/docs/functions-and-directives#config"
+          "url": "https://tailwindcss.com/docs/functions-and-directives#theme"
         }
       ]
-    },
+    }
+  ],
+  "pseudoClasses": [
     {
-      "name": "@variants",
-      "description": "You can generate responsive, hover, focus, active, and other variants of your own utilities by wrapping their definitions in the @variants directive.",
+      "name": "dark",
+      "description": "Style elements when dark mode is enabled",
       "references": [
         {
           "name": "Tailwind Documentation",
-          "url": "https://tailwindcss.com/docs/functions-and-directives#variants"
-        }
-      ]
-    },
-    {
-      "name": "@responsive",
-      "description": "You can generate responsive variants of your own classes by wrapping their definitions in the @responsive directive.",
-      "references": [
-        {
-          "name": "Tailwind Documentation",
-          "url": "https://tailwindcss.com/docs/functions-and-directives#responsive"
-        }
-      ]
-    },
-    {
-      "name": "@screen",
-      "description": "The @screen directive allows you to create media queries that reference your breakpoints by name instead of duplicating their values in your own CSS.",
-      "references": [
-        {
-          "name": "Tailwind Documentation",
-          "url": "https://tailwindcss.com/docs/functions-and-directives#screen"
+          "url": "https://tailwindcss.com/docs/dark-mode"
         }
       ]
     }

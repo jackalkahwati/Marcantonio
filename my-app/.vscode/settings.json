@@ -3,7 +3,7 @@
   "scss.validate": false,
   "less.validate": false,
   "files.associations": {
-    "*.css": "tailwindcss"
+    "*.css": "postcss"
   },
   "editor.quickSuggestions": {
     "strings": true
@@ -12,5 +12,7 @@
   "tailwindCSS.emmetCompletions": true,
   "editor.inlineSuggest.enabled": true,
   "editor.formatOnSave": true,
-  "editor.defaultFormatter": "esbenp.prettier-vscode"
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "css.customData": [".vscode/css-data.json"],
+  "postcss.validate": false
 } 
