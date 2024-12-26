@@ -32,7 +32,12 @@ const Footer = () => {
           <div>
             <h3 className="text-xl font-semibold mb-4">Connect With Us</h3>
             <div className="flex space-x-4">
-              <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="hover:text-gold transition duration-300">
+              <a 
+                href="https://www.linkedin.com/in/marcantonioglobaldefensecenturionprogram2024/" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="hover:text-gold transition duration-300"
+              >
                 <Linkedin />
               </a>
               <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="hover:text-gold transition duration-300">

@@ -55,9 +55,9 @@ export default function Home() {
   const partners = [
     { name: "Vantiq", logo: "/partners/vantiq.png" },
     { name: "Department of Defense", logo: "/partners/dod.png" },
-    { name: "DARPA", logo: "/partners/darpa.png" },
+    { name: "DARPA", logo: "/partners/darpa.jpeg" },
     { name: "Defense Innovation Unit", logo: "/partners/diu.png" },
-    { name: "AI Strategy Corporation", logo: "/partners/ai-strategy.png" }
+    { name: "Office of Naval Research", logo: "/partners/onr.png" }
   ]
 
   return (
@@ -204,13 +204,13 @@ export default function Home() {
             transition={{ duration: 0.6 }}
             className="text-center mb-16"
           >
-            <h2 className="text-3xl font-bold mb-6">Our Strategic Partners</h2>
+            <h2 className="text-4xl font-bold mb-6">Our Strategic Partners</h2>
             <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
               Collaborating with industry leaders to deliver innovative defense solutions and drive technological advancement
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-8 items-center">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-12 items-center justify-items-center max-w-6xl mx-auto">
             {partners.map((partner, index) => (
               <motion.div
                 key={partner.name}
@@ -218,14 +218,20 @@ export default function Home() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
-                className="flex justify-center"
+                className="w-full flex items-center justify-center"
               >
-                <div className="w-40 h-20 relative grayscale hover:grayscale-0 transition-all">
+                <div className="relative w-40 h-24 grayscale hover:grayscale-0 transition-all duration-300">
                   <Image
                     src={partner.logo}
                     alt={partner.name}
                     fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     style={{ objectFit: 'contain' }}
+                    className="transition-opacity duration-300 hover:opacity-80"
+                    priority={true}
+                    onError={(e) => {
+                      console.error(`Error loading image for ${partner.name}:`, e);
+                    }}
                   />
                 </div>
               </motion.div>

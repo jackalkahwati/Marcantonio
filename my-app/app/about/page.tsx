@@ -46,38 +46,41 @@ export default function About() {
           <h2 className="text-2xl font-semibold mb-6">Our Leadership</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div className="bg-gray-800 p-6 rounded-lg flex items-start space-x-4">
-              <div className="relative w-24 h-24">
+              <div className="relative w-32 h-32">
                 <Image
-                  src="/team/ceo.jpg"
+                  src="/team/ceo.jpeg"
                   alt="CEO"
                   fill
                   className="rounded-full object-cover"
                 />
               </div>
-              <div>
-                <h3 className="text-xl font-semibold">John Marcantonio</h3>
+              <div className="flex-1">
+                <h3 className="text-xl font-semibold">Nino "Typhoon" Marcantonio</h3>
                 <p className="text-gold mb-2">CEO & Founder</p>
                 <p className="text-sm">
-                  With over 20 years of experience in defense technology, John leads our vision for 
-                  innovative defense solutions.
+                  A Senior Strategic Technology Advisor to the U.S. Department of Defense with over 15 years 
+                  of experience in federal, defense, and homeland security sectors. Director of the Defense 
+                  Logistics Innovation Forum, delivering innovative technology solutions and advancing national 
+                  defense strategies through disruptive technologies.
                 </p>
               </div>
             </div>
             <div className="bg-gray-800 p-6 rounded-lg flex items-start space-x-4">
-              <div className="relative w-24 h-24">
+              <div className="relative w-32 h-32">
                 <Image
-                  src="/team/cto.jpg"
-                  alt="CTO"
+                  src="/team/cto.jpeg"
+                  alt="Partner"
                   fill
                   className="rounded-full object-cover"
                 />
               </div>
-              <div>
-                <h3 className="text-xl font-semibold">Sarah Chen</h3>
-                <p className="text-gold mb-2">Chief Technology Officer</p>
+              <div className="flex-1">
+                <h3 className="text-xl font-semibold">Carlo Rivis</h3>
+                <p className="text-gold mb-2">Partner & Head of External Innovation</p>
                 <p className="text-sm">
-                  A pioneer in AI and cybersecurity, Sarah drives our technological innovation and 
-                  strategic development.
+                  A serial tech entrepreneur and innovation strategist with nearly two decades of experience 
+                  leading complex technology projects internationally. Founder of Innovation Discovery and 
+                  recognized expert in business strategy, innovation management, and technology adoption.
                 </p>
               </div>
             </div>
