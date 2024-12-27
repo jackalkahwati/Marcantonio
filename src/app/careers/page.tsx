@@ -23,7 +23,7 @@ export default function CareersPage() {
     {
       title: 'Cybersecurity Architect',
       department: 'Security',
-      location: 'Arlington, VA',
+      location: 'Alexandria, VA',
       type: 'Full-time',
       description: 'Design and implement robust security architectures for critical defense infrastructure and applications.',
     },

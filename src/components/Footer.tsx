@@ -63,9 +63,9 @@ export default function Footer() {
           <div>
             <h3 className="text-lg font-bold mb-4">Contact</h3>
             <ul className="space-y-2 text-gray-400">
-              <li>Email: info@marcantoniodefense.com</li>
-              <li>Phone: (555) 123-4567</li>
-              <li>Location: Washington, D.C.</li>
+              <li>Email: nino@marcantonioglobal.com</li>
+              <li>Phone: 202-631-8710</li>
+              <li>Location: Alexandria, VA</li>
             </ul>
           </div>
         </div>

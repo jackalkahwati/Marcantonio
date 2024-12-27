@@ -10,7 +10,7 @@ export default function InnovationForumPage() {
     {
       title: 'Defense Technology Summit 2024',
       date: 'March 15-17, 2024',
-      location: 'Washington, DC',
+      location: 'Alexandria, VA',
       description: 'Join industry leaders and defense experts for three days of intensive discussions on emerging defense technologies.',
       topics: [
         'AI in Military Operations',
