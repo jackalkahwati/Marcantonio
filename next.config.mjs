@@ -3,9 +3,7 @@ const nextConfig = {
   reactStrictMode: true,
   transpilePackages: ['framer-motion'],
   experimental: {
-    esmExternals: 'loose',
-    appDir: true,
-    serverComponentsExternalPackages: []
+    esmExternals: 'loose'
   },
   images: {
     remotePatterns: [
@@ -30,10 +28,7 @@ const nextConfig = {
     return config;
   },
   distDir: '.next',
-  pageExtensions: ['js', 'jsx', 'ts', 'tsx', 'mdx'],
-  typescript: {
-    ignoreBuildErrors: false
-  }
+  pageExtensions: ['js', 'jsx', 'ts', 'tsx', 'mdx']
 }
 
 export default nextConfig
