@@ -28,7 +28,7 @@ export async function POST(request: Request) {
     emailApi.setApiKey(SibApiV3Sdk.TransactionalEmailsApiApiKeys.apiKey, process.env.BREVO_API_KEY!)
 
     const sendSmtpEmail = new SibApiV3Sdk.SendSmtpEmail()
-    sendSmtpEmail.subject = 'New Newsletter Subscription'
+    sendSmtpEmail.subject = 'Marcantonio Global: New Newsletter Subscriber'
     sendSmtpEmail.htmlContent = `
       <h3>New Newsletter Subscription</h3>
       <p>A new user has subscribed to the newsletter:</p>

@@ -17,7 +17,7 @@ export async function POST(request: Request) {
     }
 
     const sendSmtpEmail = new SibApiV3Sdk.SendSmtpEmail();
-    sendSmtpEmail.subject = `New Contact Form Submission from ${name}`;
+    sendSmtpEmail.subject = `Marcantonio Global: New Inquiry from ${name}`;
     sendSmtpEmail.htmlContent = `
       <h3>New Contact Form Submission</h3>
       <p><strong>Name:</strong> ${name}</p>
