@@ -3,7 +3,7 @@
 import React, { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Mail, Phone, MapPin, Send } from 'lucide-react'
-import { useToast } from "../../hooks/use-toast"
+import { useToast } from "@/hooks/use-toast"
 
 export default function ContactPage() {
   const { toast } = useToast()
@@ -69,20 +69,20 @@ export default function ContactPage() {
     {
       icon: Mail,
       title: 'Email',
-      details: 'info@marcantoniodefense.com',
-      link: 'mailto:info@marcantoniodefense.com',
+      details: 'nino@marcantonioglobal.com',
+      link: 'mailto:nino@marcantonioglobal.com',
     },
     {
       icon: Phone,
       title: 'Phone',
-      details: '+1 (202) 555-0123',
-      link: 'tel:+12025550123',
+      details: '202-631-8710',
+      link: 'tel:+12026318710',
     },
     {
       icon: MapPin,
       title: 'Location',
-      details: 'Washington, DC',
-      link: 'https://maps.google.com',
+      details: 'Alexandria, VA',
+      link: 'https://maps.google.com/?q=Alexandria,VA',
     },
   ]
 

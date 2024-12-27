@@ -30,5 +30,3 @@ const nextConfig = {
   distDir: '.next',
   pageExtensions: ['js', 'jsx', 'ts', 'tsx', 'mdx']
 }
-
-export default nextConfig
