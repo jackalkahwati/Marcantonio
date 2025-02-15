@@ -3,6 +3,7 @@
 import React from 'react'
 import { motion } from 'framer-motion'
 import { Shield, Rocket, Brain, Database, Cloud, Lock, ArrowRight, Building2, Users, Zap, Globe, Cpu, LucideIcon } from 'lucide-react'
+import Services from '@/components/Services'
 
 type ColorVariant = 'blue' | 'purple' | 'green' | 'yellow' | 'red'
 
@@ -133,8 +134,11 @@ export default function ServicesPage() {
   }
 
   return (
-    <main className="min-h-screen bg-white">
-      {/* Hero Section */}
+    <main className="min-h-screen bg-white pt-20">
+      {/* Services Section */}
+      <Services />
+
+      {/* DoD Innovation Ecosystem Section */}
       <section className="py-20 bg-navy-900">
         <div className="container mx-auto px-4">
           <motion.div

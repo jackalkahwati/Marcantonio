@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { Menu, X } from 'lucide-react'
+import { Menu, X, Star } from 'lucide-react'
 import { motion } from 'framer-motion'
 
 export default function Header() {
@@ -18,6 +18,31 @@ export default function Header() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
+  const NavLink = ({ href, label }: { href: string; label: string }) => {
+    const isCenturions = label === 'Centurions Program'
+    return (
+      <Link
+        href={href}
+        className={`relative group ${isCenturions ? 'flex items-center' : ''}`}
+        onClick={() => setIsOpen(false)}
+      >
+        <div className="flex items-center">
+          {isCenturions && (
+            <Star className="w-4 h-4 text-yellow-500 mr-1" />
+          )}
+          <span className={`${isCenturions ? 'text-navy-900 font-bold' : 'text-black'} hover:text-navy-900 transition-colors`}>
+            {label}
+          </span>
+          {isCenturions && (
+            <span className="ml-2 inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-yellow-500 text-white">
+              Elite
+            </span>
+          )}
+        </div>
+      </Link>
+    )
+  }
+
   const navLinks = [
     { href: '/about', label: 'About' },
     { href: '/services', label: 'Services' },
@@ -29,28 +54,24 @@ export default function Header() {
 
   return (
     <header
-      className="fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-white shadow-lg"
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-white shadow-lg ${
+        isScrolled ? 'py-2' : 'py-4'
+      }`}
     >
       <nav className="container mx-auto px-4">
-        <div className="flex items-center justify-between h-20">
-          <Link href="/" className="text-2xl font-bold text-black">
+        <div className="flex items-center justify-between">
+          <Link href="/" className="text-2xl font-bold text-navy-900">
             Marcantonio Global
           </Link>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
             {navLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className="text-black hover:text-navy-500 transition-colors"
-              >
-                {link.label}
-              </Link>
+              <NavLink key={link.href} {...link} />
             ))}
             <Link
               href="/contact"
-              className="bg-navy-600 text-white px-6 py-2 rounded-lg hover:bg-navy-700 transition-colors"
+              className="bg-navy-900 text-white px-6 py-2 rounded-lg hover:bg-opacity-90 transition-colors"
             >
               Get Started
             </Link>
@@ -58,7 +79,7 @@ export default function Header() {
 
           {/* Mobile Menu Button */}
           <button
-            className="md:hidden text-black"
+            className="md:hidden text-navy-900"
             onClick={() => setIsOpen(!isOpen)}
           >
             {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
@@ -71,22 +92,17 @@ export default function Header() {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className="md:hidden bg-white py-4"
+            className="md:hidden bg-white py-4 mt-4"
           >
             <div className="flex flex-col space-y-4">
               {navLinks.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className="text-black hover:text-navy-500 transition-colors px-4"
-                  onClick={() => setIsOpen(false)}
-                >
-                  {link.label}
-                </Link>
+                <div key={link.href} className="px-4">
+                  <NavLink {...link} />
+                </div>
               ))}
               <Link
                 href="/contact"
-                className="bg-navy-600 text-white px-6 py-2 mx-4 rounded-lg hover:bg-navy-700 transition-colors text-center"
+                className="bg-navy-900 text-white px-6 py-2 mx-4 rounded-lg hover:bg-opacity-90 transition-colors text-center"
                 onClick={() => setIsOpen(false)}
               >
                 Get Started

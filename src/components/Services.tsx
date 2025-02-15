@@ -1,9 +1,23 @@
 import React from 'react'
-import { Shield, Rocket, Brain, Database, Cloud, Lock, ArrowRight, Users, Target, Globe } from 'lucide-react'
+import { Shield, Rocket, Brain, Database, Cloud, Lock, ArrowRight, Users, Target, Globe, Star } from 'lucide-react'
 import Link from 'next/link'
 
 export default function Services() {
   const services = [
+    {
+      icon: Star,
+      title: 'MG Centurions Program',
+      description:
+        'Elite acceleration program driving innovation in defense technology through powerful partnerships and strategic engagement.',
+      features: [
+        'Global DoD partnerships',
+        'Access to 1,400+ trusted leaders',
+        'Full OSD A&S integration',
+        'Strategic advisory support',
+      ],
+      gradient: 'from-yellow-400 to-yellow-500',
+      link: '/centurions',
+    },
     {
       icon: Shield,
       title: 'Defense Logistics Innovation Forums',
