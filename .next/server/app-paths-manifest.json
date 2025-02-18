@@ -1,11 +1,3 @@
 {
-  "/_not-found": "app/_not-found.js",
-  "/api/newsletter/route": "app/api/newsletter/route.js",
-  "/about/page": "app/about/page.js",
-  "/careers/page": "app/careers/page.js",
-  "/contact/page": "app/contact/page.js",
-  "/centurions/page": "app/centurions/page.js",
-  "/innovation-forum/page": "app/innovation-forum/page.js",
-  "/services/page": "app/services/page.js",
-  "/page": "app/page.js"
+  "/network/page": "app/network/page.js"
 }

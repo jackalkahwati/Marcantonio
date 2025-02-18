@@ -37,6 +37,7 @@ export default function Navbar() {
     { href: '/about', label: 'About' },
     { href: '/services', label: 'Services' },
     { href: '/centurions', label: 'Centurions Program' },
+    { href: '/network', label: 'Network' },
     { href: '/innovation-forum', label: 'Innovation Forum' },
     { href: '/careers', label: 'Careers' },
     { href: '/contact', label: 'Contact' },
