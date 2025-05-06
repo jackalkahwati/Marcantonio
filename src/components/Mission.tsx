@@ -1,37 +1,8 @@
 'use client'
-import React, { useEffect, useRef } from 'react'
+import React from 'react'
 import { Shield, Rocket, Lock, Target, Globe, Zap } from 'lucide-react'
 
 export default function Mission() {
-  const headerRef = useRef<HTMLDivElement | null>(null)
-  const pillarRefs = useRef<Array<HTMLDivElement | null>>([])
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.remove('opacity-0', 'translate-y-5')
-            observer.unobserve(entry.target)
-          }
-        })
-      },
-      { threshold: 0.1 }
-    )
-
-    if (headerRef.current) {
-      observer.observe(headerRef.current)
-    }
-
-    pillarRefs.current.forEach((ref) => {
-      if (ref) {
-        observer.observe(ref)
-      }
-    })
-
-    return () => observer.disconnect()
-  }, [])
-
   const pillars = [
     {
       icon: Shield,
@@ -83,8 +54,7 @@ export default function Mission() {
 
       <div className="container relative mx-auto px-4">
         <div
-          ref={headerRef}
-          className="text-center mb-16 opacity-0 translate-y-5 transition-all duration-700 ease-out"
+          className="text-center mb-16 animate-fade-in"
         >
           <div className="inline-flex items-center gap-2 mb-6 rounded-full bg-yellow-500/20 px-6 py-2 text-sm font-semibold text-yellow-400 backdrop-blur-sm border border-yellow-400/20">
             <Shield className="w-4 h-4" />
@@ -104,10 +74,7 @@ export default function Mission() {
             return (
               <div
                 key={pillar.title}
-                ref={(el: HTMLDivElement | null): void => {
-                  pillarRefs.current[index] = el
-                }}
-                className="group relative rounded-2xl bg-white/5 p-8 backdrop-blur-sm hover:bg-white/10 transition-all opacity-0 translate-y-5"
+                className="group relative rounded-2xl bg-white/5 p-8 backdrop-blur-sm hover:bg-white/10 transition-all animate-fade-in"
                 style={{ 
                   transitionDelay: `${index * 100}ms`,
                   transitionDuration: '700ms',

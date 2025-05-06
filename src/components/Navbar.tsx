@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react'
 import Link from 'next/link'
-import { Menu, X, Star } from 'lucide-react'
+import { Menu, X, Star, ChevronDown } from 'lucide-react'
 import { motion } from 'framer-motion'
 
 export default function Navbar() {
@@ -36,12 +36,116 @@ export default function Navbar() {
   const navLinks = [
     { href: '/about', label: 'About' },
     { href: '/services', label: 'Services' },
-    { href: '/centurions', label: 'Centurions Program' },
+    {
+      label: 'Programs',
+      subLinks: [
+        { href: '/centurions', label: 'Centurions Program', star: true },
+        { href: '/dlif', label: 'DLIF' },
+        { href: '/dlif-2', label: 'DLIF 2.0' },
+        { href: '/innovation-forum', label: 'Innovation Forum' },
+      ],
+    },
     { href: '/network', label: 'Network' },
-    { href: '/innovation-forum', label: 'Innovation Forum' },
     { href: '/careers', label: 'Careers' },
     { href: '/contact', label: 'Contact' },
   ]
+
+  const DesktopNav = () => (
+    <div className="hidden md:flex items-center space-x-8">
+      {navLinks.map((link) => {
+        if (link.subLinks) {
+          return (
+            <div key={link.label} className="relative group">
+              <button className="flex items-center text-gray-600 hover:text-navy-900 transition-colors">
+                {link.label}
+                <ChevronDown className="w-4 h-4 ml-1" />
+              </button>
+              <div className="absolute left-0 mt-2 w-56 bg-white shadow-lg rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50">
+                {link.subLinks.map((s) => (
+                  <Link
+                    key={s.href}
+                    href={s.href}
+                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                  >
+                    {s.star && <Star className="w-3 h-3 text-yellow-500 inline mr-1" />} {s.label}
+                  </Link>
+                ))}
+              </div>
+            </div>
+          )
+        }
+        return <NavLink key={link.href} href={link.href!} label={link.label} />
+      })}
+      <Link
+        href="/contact"
+        className="bg-navy-900 text-white px-6 py-2 rounded-lg hover:bg-opacity-90 transition-colors"
+      >
+        Get Started
+      </Link>
+    </div>
+  )
+
+  // mobile helper for sublinks toggle
+  const [openSubMenu, setOpenSubMenu] = useState<string | null>(null)
+
+  const MobileNav = () => (
+    <motion.div
+      initial={{ opacity: 0, y: -20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -20 }}
+      className="md:hidden bg-white py-4"
+    >
+      <div className="flex flex-col space-y-4">
+        {navLinks.map((link) => {
+          if (link.subLinks) {
+            const isOpenSub = openSubMenu === link.label
+            return (
+              <div key={link.label} className="px-4">
+                <button
+                  onClick={() => setOpenSubMenu(isOpenSub ? null : link.label)}
+                  className="w-full flex items-center justify-between text-gray-600 hover:text-navy-900"
+                >
+                  <span>{link.label}</span>
+                  <ChevronDown
+                    className={`w-4 h-4 transition-transform ${isOpenSub ? 'rotate-180' : ''}`}
+                  />
+                </button>
+                {isOpenSub && (
+                  <div className="mt-2 pl-4 space-y-2">
+                    {link.subLinks.map((s) => (
+                      <Link
+                        key={s.href}
+                        href={s.href}
+                        className="block text-gray-600 hover:text-navy-900"
+                        onClick={() => {
+                          setIsOpen(false)
+                          setOpenSubMenu(null)
+                        }}
+                      >
+                        {s.star && <Star className="w-3 h-3 text-yellow-500 inline mr-1" />} {s.label}
+                      </Link>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )
+          }
+          return (
+            <div key={link.href} className="px-4">
+              <NavLink {...link} />
+            </div>
+          )
+        })}
+        <Link
+          href="/contact"
+          className="bg-navy-900 text-white px-6 py-2 mx-4 rounded-lg hover:bg-opacity-90 transition-colors text-center"
+          onClick={() => setIsOpen(false)}
+        >
+          Get Started
+        </Link>
+      </div>
+    </motion.div>
+  )
 
   return (
     <nav className="bg-white shadow-lg fixed w-full top-0 z-50">
@@ -52,17 +156,7 @@ export default function Navbar() {
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8">
-            {navLinks.map((link) => (
-              <NavLink key={link.href} {...link} />
-            ))}
-            <Link
-              href="/contact"
-              className="bg-navy-900 text-white px-6 py-2 rounded-lg hover:bg-opacity-90 transition-colors"
-            >
-              Get Started
-            </Link>
-          </div>
+          <DesktopNav />
 
           {/* Mobile Menu Button */}
           <button
@@ -74,29 +168,7 @@ export default function Navbar() {
         </div>
 
         {/* Mobile Navigation */}
-        {isOpen && (
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            className="md:hidden bg-white py-4"
-          >
-            <div className="flex flex-col space-y-4">
-              {navLinks.map((link) => (
-                <div key={link.href} className="px-4">
-                  <NavLink {...link} />
-                </div>
-              ))}
-              <Link
-                href="/contact"
-                className="bg-navy-900 text-white px-6 py-2 mx-4 rounded-lg hover:bg-opacity-90 transition-colors text-center"
-                onClick={() => setIsOpen(false)}
-              >
-                Get Started
-              </Link>
-            </div>
-          </motion.div>
-        )}
+        {isOpen && <MobileNav />}
       </div>
     </nav>
   )
