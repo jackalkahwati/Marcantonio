@@ -55,7 +55,7 @@ export async function POST(request: Request) {
         <p><strong>Message:</strong></p>
         <p>${message.replace(/\n/g, '<br>')}</p>
       `;
-      sendSmtpEmail.sender = { name: "Website Contact Form", email: "noreply@marcantonioglobal.com" };
+      sendSmtpEmail.sender = { name: "Marcantonio Global", email: "no-reply@brevo.com" };
       sendSmtpEmail.to = [{ email: "nino@marcantonioglobal.com", name: "Nino Marcantonio" }];
       sendSmtpEmail.replyTo = { email: email, name: name };
       
