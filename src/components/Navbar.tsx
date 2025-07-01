@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react'
 import Link from 'next/link'
-import { Menu, X, Star, ChevronDown, ShieldCheck } from 'lucide-react'
+import { Menu, X, Star, ChevronDown } from 'lucide-react'
 import { motion } from 'framer-motion'
 
 export default function Navbar() {
