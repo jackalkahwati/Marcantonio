@@ -10,8 +10,6 @@ export const metadata = {
   title: 'Marcantonio Global',
   description: 'Defense Innovation and Technology Solutions',
   manifest: '/site.webmanifest',
-  themeColor: '#1e40af',
-  viewport: 'width=device-width, initial-scale=1',
   icons: {
     icon: [
       { url: '/favicon.ico' },
@@ -22,6 +20,12 @@ export const metadata = {
       { url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' },
     ],
   },
+}
+
+export const viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  themeColor: '#1e40af',
 }
 
 export default function RootLayout({
