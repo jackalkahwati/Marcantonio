@@ -74,7 +74,7 @@ export async function POST(request: Request) {
         <p><strong>Message:</strong></p>
         <p>${message.replace(/\n/g, '<br>')}</p>
       `;
-      sendSmtpEmail.sender = { name: "Marcantonio Global", email: "no-reply@brevo.com" };
+      sendSmtpEmail.sender = { name: "Marcantonio Global Contact Form", email: "jack@lattis.io" };
       sendSmtpEmail.to = [{ email: "nino@marcantonioglobal.com", name: "Nino Marcantonio" }];
       sendSmtpEmail.replyTo = { email: email, name: name };
       
@@ -85,18 +85,32 @@ export async function POST(request: Request) {
 
       return NextResponse.json({ success: true, message: 'Email sent successfully' });
       
-    } catch (emailError) {
+    } catch (emailError: any) {
       console.error('Contact API: Brevo email error:', emailError);
       console.error('Contact API: Email error details:', {
         message: emailError instanceof Error ? emailError.message : 'Unknown error',
         stack: emailError instanceof Error ? emailError.stack : undefined,
+        response: emailError?.response?.body || emailError?.response,
+        status: emailError?.response?.status,
+        statusText: emailError?.response?.statusText,
         error: emailError
       });
       
-      // Return more detailed error information for debugging
+      // Extract detailed error information from Brevo API response
+      let errorMessage = 'Unknown error';
+      if (emailError?.response?.body?.message) {
+        errorMessage = emailError.response.body.message;
+      } else if (emailError?.message) {
+        errorMessage = emailError.message;
+      } else if (emailError?.response?.statusText) {
+        errorMessage = `HTTP ${emailError.response.status}: ${emailError.response.statusText}`;
+      }
+      
       const errorDetails = {
-        message: emailError instanceof Error ? emailError.message : 'Unknown error',
+        message: errorMessage,
         errorType: typeof emailError,
+        httpStatus: emailError?.response?.status,
+        brevoError: emailError?.response?.body,
         hasApiKey,
         apiKeyLength,
         apiKeyPrefix,
@@ -105,7 +119,7 @@ export async function POST(request: Request) {
       
       return NextResponse.json(
         { 
-          error: 'Email service error: ' + (emailError instanceof Error ? emailError.message : 'Unknown error'),
+          error: 'Email service error: ' + errorMessage,
           debug: errorDetails
         },
         { status: 500 }
