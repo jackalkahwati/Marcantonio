@@ -20,6 +20,8 @@ export default function ContactPage() {
     setIsLoading(true)
 
     try {
+      console.log('Submitting form with data:', formData)
+      
       const response = await fetch('/api/contact', {
         method: 'POST',
         headers: {
@@ -28,10 +30,14 @@ export default function ContactPage() {
         body: JSON.stringify(formData),
       })
 
+      console.log('Response status:', response.status)
+      console.log('Response ok:', response.ok)
+
       const data = await response.json()
+      console.log('Response data:', data)
 
       if (!response.ok) {
-        throw new Error(data.error || 'Failed to send message')
+        throw new Error(data.error || `HTTP error! status: ${response.status}`)
       }
 
       toast({
@@ -47,6 +53,8 @@ export default function ContactPage() {
         message: '',
       })
     } catch (error) {
+      console.error('Form submission error:', error)
+      
       toast({
         title: "Error",
         description: error instanceof Error ? error.message : "Failed to send message",

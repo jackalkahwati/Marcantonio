@@ -9,7 +9,7 @@ export default function FactSheetPage() {
     {
       icon: Calendar,
       label: 'Founded',
-      value: '2020',
+      value: '2016',
       description: 'Established to bridge defense and technology innovation'
     },
     {
@@ -34,25 +34,25 @@ export default function FactSheetPage() {
 
   const timeline = [
     {
-      year: '2020',
+      year: '2016',
       title: 'Company Founded',
       description: 'Marcantonio Global established with mission to accelerate defense innovation through strategic partnerships.',
       icon: Rocket
     },
     {
-      year: '2021',
+      year: '2018',
       title: 'First Major Partnerships',
       description: 'Established key relationships with DoD entities and technology companies, launching our network approach.',
       icon: Users
     },
     {
-      year: '2022',
+      year: '2020',
       title: 'DLIF Program Launch',
       description: 'Launched Defense Leadership Innovation Forum, creating structured pathways for tech-defense collaboration.',
       icon: Target
     },
     {
-      year: '2023',
+      year: '2022',
       title: 'Centurions Program',
       description: 'Introduced elite Centurions Program for top-tier defense technology partnerships and accelerated innovation.',
       icon: Trophy
