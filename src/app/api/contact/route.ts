@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import * as SibApiV3Sdk from '@sendinblue/client';
 
 export async function POST(request: Request) {
+  // Force deployment trigger - testing production environment
   console.log('Contact API: Received POST request');
   
   try {
