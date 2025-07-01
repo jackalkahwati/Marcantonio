@@ -98,12 +98,27 @@ export async function POST(request: Request) {
       
       // Extract detailed error information from Brevo API response
       let errorMessage = 'Unknown error';
+      let isIPRestriction = false;
+      
       if (emailError?.response?.body?.message) {
         errorMessage = emailError.response.body.message;
+        // Check if this is an IP restriction error
+        if (errorMessage.includes('unrecognised IP address') || errorMessage.includes('authorised_ips')) {
+          isIPRestriction = true;
+        }
       } else if (emailError?.message) {
         errorMessage = emailError.message;
+        if (errorMessage.includes('unrecognised IP address') || errorMessage.includes('authorised_ips')) {
+          isIPRestriction = true;
+        }
       } else if (emailError?.response?.statusText) {
         errorMessage = `HTTP ${emailError.response.status}: ${emailError.response.statusText}`;
+      }
+      
+      // If it's an IP restriction error, provide clearer guidance
+      if (isIPRestriction) {
+        console.error('Contact API: IP restriction detected - need to authorize deployment server IP');
+        errorMessage = 'Email service configuration error: Server IP address needs to be authorized. Please contact administrator.';
       }
       
       const errorDetails = {
