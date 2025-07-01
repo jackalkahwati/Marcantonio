@@ -49,7 +49,7 @@ export async function POST(request: Request) {
 
     const data = await apiInstance.sendTransacEmail(sendSmtpEmail);
 
-    return NextResponse.json({ success: true, messageId: data.messageId });
+    return NextResponse.json({ success: true, message: 'Email sent successfully' });
   } catch (error) {
     console.error('Contact form error:', error);
     
