@@ -92,10 +92,20 @@ export async function POST(request: Request) {
         error: emailError
       });
       
+      // Return more detailed error information for debugging
+      const errorDetails = {
+        message: emailError instanceof Error ? emailError.message : 'Unknown error',
+        errorType: typeof emailError,
+        hasApiKey,
+        apiKeyLength,
+        apiKeyPrefix,
+        nodeEnv: process.env.NODE_ENV
+      };
+      
       return NextResponse.json(
         { 
           error: 'Email service error: ' + (emailError instanceof Error ? emailError.message : 'Unknown error'),
-          debug: { hasApiKey, apiKeyLength, apiKeyPrefix, nodeEnv: process.env.NODE_ENV }
+          debug: errorDetails
         },
         { status: 500 }
       );
