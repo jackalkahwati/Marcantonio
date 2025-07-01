@@ -5,9 +5,17 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { BookOpen, Calendar, User, ArrowRight, X, Mail, CheckCircle, Send } from 'lucide-react'
 import Link from 'next/link'
 
+interface SubscriptionData {
+  email: string
+  firstName: string
+  lastName: string
+  company: string
+  interests: string[]
+}
+
 export default function JournalPage() {
   const [isSubscriptionModalOpen, setIsSubscriptionModalOpen] = useState(false)
-  const [subscriptionData, setSubscriptionData] = useState({
+  const [subscriptionData, setSubscriptionData] = useState<SubscriptionData>({
     email: '',
     firstName: '',
     lastName: '',
@@ -26,7 +34,7 @@ export default function JournalPage() {
     'Innovation Research'
   ]
 
-  const handleSubscriptionInputChange = (e) => {
+  const handleSubscriptionInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
     setSubscriptionData(prev => ({
       ...prev,
@@ -34,7 +42,7 @@ export default function JournalPage() {
     }))
   }
 
-  const handleInterestChange = (interest) => {
+  const handleInterestChange = (interest: string) => {
     setSubscriptionData(prev => ({
       ...prev,
       interests: prev.interests.includes(interest)
@@ -43,7 +51,7 @@ export default function JournalPage() {
     }))
   }
 
-  const handleSubscriptionSubmit = async (e) => {
+  const handleSubscriptionSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsSubmitting(true)
     
@@ -67,7 +75,7 @@ export default function JournalPage() {
     }, 3000)
   }
 
-  const handleQuickSubscribe = (email) => {
+  const handleQuickSubscribe = (email: string) => {
     if (email) {
       setSubscriptionData(prev => ({ ...prev, email }))
       setIsSubscriptionModalOpen(true)
@@ -224,14 +232,14 @@ export default function JournalPage() {
                   className="flex-1 px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
                   onKeyPress={(e) => {
                     if (e.key === 'Enter') {
-                      handleQuickSubscribe(e.target.value)
+                      handleQuickSubscribe((e.target as HTMLInputElement).value)
                     }
                   }}
                 />
                 <button 
                   onClick={() => {
-                    const emailInput = document.querySelector('input[type="email"]')
-                    handleQuickSubscribe(emailInput.value)
+                    const emailInput = document.querySelector('input[type="email"]') as HTMLInputElement
+                    handleQuickSubscribe(emailInput?.value || '')
                   }}
                   className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium"
                 >

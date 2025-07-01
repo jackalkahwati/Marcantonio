@@ -5,10 +5,28 @@ import { motion } from 'framer-motion'
 import { Wrench, Calendar, Clock, Users, ArrowRight, Target, X, Mail, User, Building } from 'lucide-react'
 import Link from 'next/link'
 
+interface Workshop {
+  title: string
+  date: string
+  duration: string
+  participants: number
+  level: string
+  description: string
+  topics: string[]
+}
+
+interface FormData {
+  name: string
+  email: string
+  organization: string
+  title: string
+  phone: string
+}
+
 export default function WorkshopsPage() {
-  const [selectedWorkshop, setSelectedWorkshop] = useState(null)
+  const [selectedWorkshop, setSelectedWorkshop] = useState<Workshop | null>(null)
   const [isModalOpen, setIsModalOpen] = useState(false)
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormData>({
     name: '',
     email: '',
     organization: '',
@@ -16,7 +34,7 @@ export default function WorkshopsPage() {
     phone: ''
   })
 
-  const handleRegister = (workshop) => {
+  const handleRegister = (workshop: Workshop) => {
     setSelectedWorkshop(workshop)
     setIsModalOpen(true)
   }
@@ -33,18 +51,18 @@ export default function WorkshopsPage() {
     })
   }
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value
     })
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     // Here you would typically send the registration data to your backend
     console.log('Registration submitted:', { workshop: selectedWorkshop, registrant: formData })
-    alert(`Thank you! Your registration for "${selectedWorkshop.title}" has been submitted. We'll contact you with confirmation details.`)
+    alert(`Thank you! Your registration for "${selectedWorkshop?.title}" has been submitted. We'll contact you with confirmation details.`)
     handleCloseModal()
   }
   const workshops = [

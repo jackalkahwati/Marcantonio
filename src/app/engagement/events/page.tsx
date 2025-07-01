@@ -4,10 +4,33 @@ import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Calendar, MapPin, Users, Clock, ArrowRight, X, User, Mail, Building, Phone, CheckCircle, Send } from 'lucide-react'
 
+interface Event {
+  title: string
+  date: string
+  time: string
+  location: string
+  attendees: string
+  type: string
+  description: string
+  highlights: string[]
+  registration: string
+}
+
+interface RegistrationData {
+  firstName: string
+  lastName: string
+  email: string
+  phone: string
+  company: string
+  jobTitle: string
+  dietaryRestrictions: string
+  hearAbout: string
+}
+
 export default function EventsPage() {
   const [isRegistrationModalOpen, setIsRegistrationModalOpen] = useState(false)
-  const [selectedEvent, setSelectedEvent] = useState(null)
-  const [registrationData, setRegistrationData] = useState({
+  const [selectedEvent, setSelectedEvent] = useState<Event | null>(null)
+  const [registrationData, setRegistrationData] = useState<RegistrationData>({
     firstName: '',
     lastName: '',
     email: '',
@@ -20,13 +43,13 @@ export default function EventsPage() {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isRegistered, setIsRegistered] = useState(false)
 
-  const handleRegisterClick = (event) => {
+  const handleRegisterClick = (event: Event) => {
     setSelectedEvent(event)
     setIsRegistrationModalOpen(true)
     setIsRegistered(false)
   }
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target
     setRegistrationData(prev => ({
       ...prev,
@@ -34,7 +57,7 @@ export default function EventsPage() {
     }))
   }
 
-  const handleRegistrationSubmit = async (e) => {
+  const handleRegistrationSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsSubmitting(true)
     

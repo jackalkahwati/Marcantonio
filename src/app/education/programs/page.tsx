@@ -5,10 +5,29 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { Star, Users, Wrench, Calendar, ArrowRight, CheckCircle, Clock, MapPin, X, Send, User, Mail, Building, Phone } from 'lucide-react'
 import Link from 'next/link'
 
+interface Program {
+  program: string
+  startDate: string
+  applicationDeadline: string
+  spotsAvailable: number
+  totalSpots: number
+}
+
+interface FormData {
+  firstName: string
+  lastName: string
+  email: string
+  phone: string
+  company: string
+  jobTitle: string
+  experience: string
+  motivation: string
+}
+
 export default function ProgramsPage() {
   const [isModalOpen, setIsModalOpen] = useState(false)
-  const [selectedProgram, setSelectedProgram] = useState(null)
-  const [formData, setFormData] = useState({
+  const [selectedProgram, setSelectedProgram] = useState<Program | null>(null)
+  const [formData, setFormData] = useState<FormData>({
     firstName: '',
     lastName: '',
     email: '',
@@ -21,13 +40,13 @@ export default function ProgramsPage() {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSubmitted, setIsSubmitted] = useState(false)
 
-  const handleApplyClick = (program) => {
+  const handleApplyClick = (program: Program) => {
     setSelectedProgram(program)
     setIsModalOpen(true)
     setIsSubmitted(false)
   }
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target
     setFormData(prev => ({
       ...prev,
@@ -35,7 +54,7 @@ export default function ProgramsPage() {
     }))
   }
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsSubmitting(true)
     

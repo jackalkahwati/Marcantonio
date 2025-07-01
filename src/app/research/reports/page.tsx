@@ -5,10 +5,20 @@ import { motion } from 'framer-motion'
 import { FileText, Download, Calendar } from 'lucide-react'
 import jsPDF from 'jspdf'
 
+interface Report {
+  title: string
+  category: string
+  date: string
+  pages: number
+  downloads: number
+  description: string
+  id: string
+}
+
 export default function ReportsPage() {
   const [selectedCategory, setSelectedCategory] = useState('All')
 
-  const reports = [
+  const reports: Report[] = [
     {
       title: 'Defense Innovation Ecosystem 2024: Comprehensive Analysis',
       category: 'Ecosystem Analysis',
@@ -89,7 +99,7 @@ export default function ReportsPage() {
     ? reports 
     : reports.filter(report => report.category === selectedCategory)
 
-  const generatePDF = (report) => {
+  const generatePDF = (report: Report) => {
     const doc = new jsPDF()
     const margin = 30
     const pageWidth = doc.internal.pageSize.getWidth()
@@ -99,7 +109,7 @@ export default function ReportsPage() {
     let yPosition = margin
 
     // Helper function to add text with automatic page breaks
-    const addText = (text, fontSize = 11, fontStyle = 'normal', color = [0, 0, 0]) => {
+    const addText = (text: string, fontSize: number = 11, fontStyle: string = 'normal', color: [number, number, number] = [0, 0, 0]) => {
       doc.setFontSize(fontSize)
       doc.setFont('helvetica', fontStyle)
       doc.setTextColor(color[0], color[1], color[2])
@@ -139,7 +149,7 @@ export default function ReportsPage() {
     doc.setFont('helvetica', 'bold')
     const titleLines = doc.splitTextToSize(report.title, contentWidth - 40)
     let titleY = pageHeight / 2 - 40
-    titleLines.forEach(line => {
+    titleLines.forEach((line: string) => {
       doc.text(line, pageWidth / 2, titleY, { align: 'center' })
       titleY += 35
     })
