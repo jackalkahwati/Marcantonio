@@ -18,11 +18,25 @@ export async function POST(request: Request) {
       );
     }
 
-    // Check if API key is configured
+    // Enhanced debugging - Check if API key is configured
+    const hasApiKey = !!process.env.BREVO_API_KEY;
+    const apiKeyLength = process.env.BREVO_API_KEY?.length || 0;
+    const apiKeyPrefix = process.env.BREVO_API_KEY?.substring(0, 15) || 'missing';
+    
+    console.log('Contact API: Environment check:', {
+      hasApiKey,
+      apiKeyLength,
+      apiKeyPrefix,
+      nodeEnv: process.env.NODE_ENV
+    });
+
     if (!process.env.BREVO_API_KEY) {
       console.error('Contact API: BREVO_API_KEY environment variable is not set');
       return NextResponse.json(
-        { error: 'Email service not configured. Please contact administrator.' },
+        { 
+          error: 'Email service not configured. Please contact administrator.',
+          debug: { hasApiKey, apiKeyLength, apiKeyPrefix, nodeEnv: process.env.NODE_ENV }
+        },
         { status: 500 }
       );
     }
@@ -30,7 +44,10 @@ export async function POST(request: Request) {
     if (process.env.BREVO_API_KEY === 'your_brevo_api_key_here') {
       console.error('Contact API: BREVO_API_KEY is not properly configured - still using placeholder value');
       return NextResponse.json(
-        { error: 'Email service not properly configured. Please contact administrator.' },
+        { 
+          error: 'Email service not properly configured. Please contact administrator.',
+          debug: { hasApiKey, apiKeyLength, apiKeyPrefix, nodeEnv: process.env.NODE_ENV }
+        },
         { status: 500 }
       );
     }
@@ -75,7 +92,10 @@ export async function POST(request: Request) {
       });
       
       return NextResponse.json(
-        { error: 'Email service error: ' + (emailError instanceof Error ? emailError.message : 'Unknown error') },
+        { 
+          error: 'Email service error: ' + (emailError instanceof Error ? emailError.message : 'Unknown error'),
+          debug: { hasApiKey, apiKeyLength, apiKeyPrefix, nodeEnv: process.env.NODE_ENV }
+        },
         { status: 500 }
       );
     }
