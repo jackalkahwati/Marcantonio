@@ -3,6 +3,7 @@ import * as SibApiV3Sdk from '@sendinblue/client';
 
 export async function POST(request: Request) {
   // Force deployment trigger - testing production environment
+  // Deploy timestamp: 2025-01-07 22:05 - Testing with enhanced debugging
   console.log('Contact API: Received POST request');
   
   try {
