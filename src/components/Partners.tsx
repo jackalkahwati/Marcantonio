@@ -79,7 +79,7 @@ export default function Partners() {
           </p>
         </motion.div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 lg:gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 lg:gap-8">
           {partners.map((partner, index) => {
             const Icon = partner.icon
             return (
@@ -105,22 +105,22 @@ export default function Partners() {
                   
                   <div className="relative flex flex-col h-full">
                     {/* Logo */}
-                    <div className="mb-6 relative h-16">
+                    <div className="mb-6 relative h-16 flex items-center justify-center bg-white rounded-lg p-3">
                       <img
                         src={partner.logo}
                         alt={`${partner.name} logo`}
-                        className="h-full w-auto max-w-[200px] object-contain filter brightness-0 invert opacity-80 group-hover:opacity-100 transition-opacity duration-300"
+                        className="h-full w-auto max-w-[160px] object-contain"
                       />
                     </div>
                     
                     <div className="flex-grow">
                       <div className="flex items-center justify-between mb-4">
-                        <h3 className="text-2xl font-bold text-white group-hover:text-yellow-400 transition-colors duration-300">
+                        <h3 className="text-xl font-bold text-white group-hover:text-yellow-400 transition-colors duration-300">
                           {partner.shortName}
                         </h3>
                         <div className="flex items-center gap-2">
-                          <Icon className="w-5 h-5 text-white/40 group-hover:text-yellow-400 transition-colors duration-300" aria-hidden="true" />
-                          <ArrowUpRight className="w-5 h-5 text-white/40 group-hover:text-yellow-400 transition-colors duration-300" aria-hidden="true" />
+                          <Icon className="w-4 h-4 text-white/40 group-hover:text-yellow-400 transition-colors duration-300" aria-hidden="true" />
+                          <ArrowUpRight className="w-4 h-4 text-white/40 group-hover:text-yellow-400 transition-colors duration-300" aria-hidden="true" />
                         </div>
                       </div>
                       

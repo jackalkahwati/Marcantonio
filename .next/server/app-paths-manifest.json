@@ -1,3 +1,7 @@
 {
-  "/network/page": "app/network/page.js"
+  "/about/contact/page": "app/about/contact/page.js",
+  "/careers/page": "app/careers/page.js",
+  "/page": "app/page.js",
+  "/research/page": "app/research/page.js",
+  "/research/reports/page": "app/research/reports/page.js"
 }
