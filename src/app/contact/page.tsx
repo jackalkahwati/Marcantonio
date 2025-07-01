@@ -16,7 +16,7 @@ export default function ContactRedirect() {
       <div className="text-center">
         <h1 className="text-2xl font-bold text-gray-900 mb-4">Redirecting...</h1>
         <p className="text-gray-600">
-          Contact us has moved to About > Contact Us.
+          Contact us has moved to About {'>'}Contact Us.
         </p>
       </div>
     </div>

@@ -2,7 +2,7 @@
 
 import React from 'react'
 import { motion } from 'framer-motion'
-import { GraduationCap, Users, Workshop, Star, ArrowRight, Calendar } from 'lucide-react'
+import { GraduationCap, Users, Wrench, Star, ArrowRight, Calendar } from 'lucide-react'
 import Link from 'next/link'
 
 export default function EducationPage() {
@@ -37,7 +37,7 @@ export default function EducationPage() {
       participants: '50+ companies'
     },
     {
-      icon: Workshop,
+      icon: Wrench,
       title: 'Innovation Workshops',
       description: 'Focused sessions on specific technology areas, defense requirements, and partnership strategies.',
       href: '/innovation-forum',
