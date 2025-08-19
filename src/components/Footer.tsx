@@ -29,6 +29,16 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
+                <Link href="/resources" className="text-gray-400 hover:text-white">
+                  Resources
+                </Link>
+              </li>
+              <li>
+                <Link href="/news" className="text-gray-400 hover:text-white">
+                  News
+                </Link>
+              </li>
+              <li>
                 <Link href="/careers" className="text-gray-400 hover:text-white">
                   Careers
                 </Link>
@@ -56,6 +66,21 @@ export default function Footer() {
               <li>
                 <Link href="/services" className="text-gray-400 hover:text-white">
                   Strategic Consulting
+                </Link>
+              </li>
+              <li>
+                <Link href="/engagement/events" className="text-gray-400 hover:text-white">
+                  Events
+                </Link>
+              </li>
+              <li>
+                <Link href="/engagement/partnerships" className="text-gray-400 hover:text-white">
+                  Partnerships
+                </Link>
+              </li>
+              <li>
+                <Link href="/engagement/digital-programs" className="text-gray-400 hover:text-white">
+                  Digital Programs
                 </Link>
               </li>
             </ul>

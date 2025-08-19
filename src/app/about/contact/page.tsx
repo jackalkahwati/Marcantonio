@@ -4,6 +4,7 @@ import React, { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Mail, Phone, MapPin, Send } from 'lucide-react'
 import { useToast } from "@/hooks/use-toast"
+import { track } from '@/lib/analytics'
 
 export default function ContactPage() {
   const { toast } = useToast()
@@ -44,6 +45,7 @@ export default function ContactPage() {
         title: "Message Sent",
         description: "Thank you for your message. We'll get back to you soon.",
       })
+      track({ name: 'contact_submitted' })
 
       // Reset form
       setFormData({
@@ -60,6 +62,7 @@ export default function ContactPage() {
         description: error instanceof Error ? error.message : "Failed to send message",
         variant: "destructive",
       })
+      track({ name: 'contact_error' })
     } finally {
       setIsLoading(false)
     }

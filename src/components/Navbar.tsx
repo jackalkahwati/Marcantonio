@@ -3,6 +3,7 @@
 import React, { useState } from 'react'
 import Link from 'next/link'
 import { Menu, X, Star, ChevronDown, ShieldCheck } from 'lucide-react'
+import { track } from '@/lib/analytics'
 import { motion } from 'framer-motion'
 
 export default function Navbar() {
@@ -14,7 +15,10 @@ export default function Navbar() {
       <Link
         href={href}
         className={`relative group ${isCenturions ? 'flex items-center' : ''}`}
-        onClick={() => setIsOpen(false)}
+        onClick={() => {
+          setIsOpen(false)
+          track({ name: 'nav_click', meta: { location: 'header', label, href } })
+        }}
       >
         <div className="flex items-center">
           {isCenturions && (
@@ -35,20 +39,18 @@ export default function Navbar() {
 
   const navLinks = [
     {
-      label: 'About',
+      label: 'Solutions',
       subLinks: [
-        { href: '/about', label: 'About Marcantonio Global' },
-        { href: '/about/leadership', label: 'Leadership Team' },
-        { href: '/about/fact-sheet', label: 'Fact Sheet & Timeline' },
-        { href: '/about/contact', label: 'Contact Us' }
+        { href: '/services', label: 'Services' },
+        { href: '/pricing', label: 'Pricing' },
       ],
     },
     {
-      label: 'Education',
+      label: 'Programs',
       subLinks: [
-        { href: '/education/programs', label: 'Programs & Seminars' },
+        { href: '/centurions', label: 'Centurions Program' },
+        { href: '/education/workshops', label: 'Workshops' },
         { href: '/education/fellowships', label: 'Fellowships' },
-        { href: '/education/workshops', label: 'Workshops' }
       ],
     },
     {
@@ -56,21 +58,17 @@ export default function Navbar() {
       subLinks: [
         { href: '/research/reports', label: 'Reports and Papers' },
         { href: '/research/journal', label: 'Industry Journal' },
-        { href: '/research/operational-analyses', label: 'Operational Analyses' }
+        { href: '/research/operational-analyses', label: 'Operational Analyses' },
       ],
     },
     {
-      label: 'Engagement',
+      label: 'About',
       subLinks: [
-        { href: '/engagement/events', label: 'Events' },
-        { href: '/engagement/digital-programs', label: 'Digital Programs' },
-        { href: '/engagement/partnerships', label: 'Strategic Partnerships' }
+        { href: '/about', label: 'Company' },
+        { href: '/about/leadership', label: 'Leadership Team' },
+        { href: '/contact', label: 'Contact Us' },
       ],
     },
-    { href: '/news', label: 'News' },
-    { href: '/resources', label: 'Resources' },
-    { href: '/careers', label: 'Careers' },
-    { href: '/pricing', label: 'Pricing' },
   ]
 
   const DesktopNav = () => (
@@ -89,6 +87,7 @@ export default function Navbar() {
                     key={s.href}
                     href={s.href}
                     className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                    onClick={() => track({ name: 'nav_click', meta: { location: 'header', section: link.label, label: s.label, href: s.href } })}
                   >
                     {s.label === 'Centurions Program' && <Star className="w-3 h-3 text-yellow-500 inline mr-1" />} {s.label}
                   </Link>
@@ -100,10 +99,11 @@ export default function Navbar() {
         return <NavLink key={link.href} href={link.href!} label={link.label} />
       })}
       <Link
-        href="/about/contact"
+        href="/contact"
         className="bg-navy-900 text-white px-6 py-2 rounded-lg hover:bg-opacity-90 transition-colors"
+        onClick={() => track({ name: 'cta_click', meta: { location: 'header', label: 'Book a Call' } })}
       >
-        Get Started
+        Book a Call
       </Link>
     </div>
   )
@@ -143,6 +143,7 @@ export default function Navbar() {
                         onClick={() => {
                           setIsOpen(false)
                           setOpenSubMenu(null)
+                          track({ name: 'nav_click', meta: { location: 'header_mobile', section: link.label, label: s.label, href: s.href } })
                         }}
                       >
                         {s.label === 'Centurions Program' && <Star className="w-3 h-3 text-yellow-500 inline mr-1" />} {s.label}
@@ -160,11 +161,11 @@ export default function Navbar() {
           )
         })}
         <Link
-          href="/about/contact"
+          href="/contact"
           className="bg-navy-900 text-white px-6 py-2 mx-4 rounded-lg hover:bg-opacity-90 transition-colors text-center"
-          onClick={() => setIsOpen(false)}
+          onClick={() => { setIsOpen(false); track({ name: 'cta_click', meta: { location: 'header_mobile', label: 'Book a Call' } }) }}
         >
-          Get Started
+          Book a Call
         </Link>
       </div>
     </motion.div>

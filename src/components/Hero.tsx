@@ -3,6 +3,7 @@
 import React, { useEffect, useRef } from 'react'
 import Link from 'next/link'
 import { Shield, ArrowRight } from 'lucide-react'
+import { track } from '@/lib/analytics'
 
 export default function Hero() {
   const videoRef = useRef<HTMLVideoElement>(null)
@@ -60,15 +61,17 @@ export default function Hero() {
               <Link
                 href="/contact"
                 className="group inline-flex items-center justify-center px-8 py-4 border border-transparent text-lg font-semibold rounded-xl text-black bg-gradient-to-r from-yellow-400 to-yellow-500 hover:from-yellow-500 hover:to-yellow-600 transition-all hover:scale-105"
+                onClick={() => track({ name: 'cta_click', meta: { location: 'hero', label: 'Book a Call' } })}
               >
-                Start Your Journey
+                Book a Call
                 <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
               </Link>
               <Link
-                href="/services"
+                href="/pricing"
                 className="group inline-flex items-center justify-center px-8 py-4 border-2 border-white/20 text-lg font-semibold rounded-xl text-white bg-white/5 backdrop-blur-sm hover:bg-white/10 hover:border-white/30 transition-all hover:scale-105"
+                onClick={() => track({ name: 'cta_click', meta: { location: 'hero', label: 'See Pricing' } })}
               >
-                Explore Our Process
+                See Pricing
                 <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
               </Link>
             </div>

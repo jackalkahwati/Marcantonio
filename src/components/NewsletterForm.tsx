@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { useToast } from '../hooks/use-toast'
+import { track } from '@/lib/analytics'
 
 export function NewsletterForm() {
   const { toast } = useToast()
@@ -32,6 +33,8 @@ export function NewsletterForm() {
         description: "Thank you for subscribing to our newsletter.",
       })
 
+      track({ name: 'newsletter_subscribed', meta: { email_domain: email.split('@')[1] || '' } })
+
       setEmail('')
     } catch (error) {
       toast({
@@ -39,6 +42,7 @@ export function NewsletterForm() {
         description: error instanceof Error ? error.message : "Failed to subscribe",
         variant: "destructive",
       })
+      track({ name: 'newsletter_error' })
     } finally {
       setIsLoading(false)
     }

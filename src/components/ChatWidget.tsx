@@ -173,13 +173,17 @@ export default function ChatWidget() {
   }
 
   function scoreReadiness(): number {
-    if (!weights) return 50
-    // Very simple heuristic: distribute user answers count over weights to produce a coarse score
-    const answered = messages.filter(m => m.role === 'user').length
-    const base = Math.min(answered / questions.length, 1)
-    const weightSum = Object.values(weights.weights).reduce((a, b) => a + b, 0)
-    const weighted = base * (weightSum > 0 ? 100 : 100)
-    return Math.round(40 + weighted * 0.6) // 40–100
+    const keys = ['outcome','trl','mission','compliance','partners','opps']
+    let count = keys.reduce((acc, k) => acc + (answers[k] ? 1 : 0), 0)
+    const ratio = count / keys.length
+    let score = 40 + Math.round(ratio * 50) // 40–90
+    // Penalties for unknown/none/? and no OTA sponsor
+    const userText = buildUserContext().toLowerCase()
+    const unknownHits = (userText.match(/\b(unknown|none|\?)\b/g) || []).length
+    score -= Math.min(unknownHits * 5, 15)
+    if (answers.outcome === 'ota' && !/\byes\b/.test(answers.sponsor || '')) score -= 10
+    if (/trl\s*(1|2|3|4|5|6)\b/.test(userText)) score -= 5
+    return Math.max(20, Math.min(95, score))
   }
 
   function buildAssessment(): string {
