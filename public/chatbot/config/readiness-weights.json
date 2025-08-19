@@ -1,0 +1,16 @@
+{
+  "weights": {
+    "trl": 0.25,
+    "pastPerformance": 0.15,
+    "operationalFit": 0.2,
+    "compliance": 0.15,
+    "teamAndAdvisors": 0.15,
+    "fundingAndTimeline": 0.1
+  },
+  "thresholds": {
+    "high": 75,
+    "medium": 50
+  }
+}
+
+

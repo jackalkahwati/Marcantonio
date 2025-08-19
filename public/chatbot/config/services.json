@@ -1,0 +1,38 @@
+{
+  "tiers": [
+    {
+      "id": "free",
+      "name": "Free",
+      "features": [
+        "Guided intake (5–7 questions)",
+        "Rapid Capability Assessment (summary)",
+        "General readiness score",
+        "Basic next-step checklist"
+      ],
+      "limits": { "messages": 10 }
+    },
+    {
+      "id": "silver",
+      "name": "Silver",
+      "price": 199,
+      "features": [
+        "Detailed assessment PDF",
+        "Tailored opportunity list with timelines",
+        "Milestone tracker"
+      ]
+    },
+    {
+      "id": "gold",
+      "name": "Gold",
+      "price": 500,
+      "features": [
+        "Partner sourcing recommendations",
+        "Proposal support templates",
+        "Quarterly strategy session",
+        "Priority introductions"
+      ]
+    }
+  ]
+}
+
+

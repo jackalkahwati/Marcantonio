@@ -1,9 +1,6 @@
 import { NextResponse } from 'next/server'
 import * as SibApiV3Sdk from '@sendinblue/client'
 
-const apiInstance = new SibApiV3Sdk.ContactsApi()
-apiInstance.setApiKey(SibApiV3Sdk.ContactsApiApiKeys.apiKey, process.env.BREVO_API_KEY!)
-
 export async function POST(request: Request) {
   try {
     const body = await request.json()
@@ -16,16 +13,24 @@ export async function POST(request: Request) {
       )
     }
 
+    if (!process.env.BREVO_API_KEY) {
+      return NextResponse.json({ error: 'Newsletter temporarily unavailable' }, { status: 503 })
+    }
+
+    const listId = Number(process.env.BREVO_NEWSLETTER_LIST_ID || '0') || undefined
+    const contactsApi = new SibApiV3Sdk.ContactsApi()
+    contactsApi.setApiKey(SibApiV3Sdk.ContactsApiApiKeys.apiKey, process.env.BREVO_API_KEY)
+
     const createContact = new SibApiV3Sdk.CreateContact()
     createContact.email = email
-    createContact.listIds = [2] // Default list ID in Brevo
+    if (listId) createContact.listIds = [listId]
     createContact.updateEnabled = true
 
-    const data = await apiInstance.createContact(createContact)
+    const data = await contactsApi.createContact(createContact)
 
     // Also send a notification email to admin
     const emailApi = new SibApiV3Sdk.TransactionalEmailsApi()
-    emailApi.setApiKey(SibApiV3Sdk.TransactionalEmailsApiApiKeys.apiKey, process.env.BREVO_API_KEY!)
+    emailApi.setApiKey(SibApiV3Sdk.TransactionalEmailsApiApiKeys.apiKey, process.env.BREVO_API_KEY)
 
     const sendSmtpEmail = new SibApiV3Sdk.SendSmtpEmail()
     sendSmtpEmail.subject = 'Marcantonio Global: New Newsletter Subscriber'

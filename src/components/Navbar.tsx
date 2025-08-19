@@ -70,6 +70,7 @@ export default function Navbar() {
     { href: '/news', label: 'News' },
     { href: '/resources', label: 'Resources' },
     { href: '/careers', label: 'Careers' },
+    { href: '/pricing', label: 'Pricing' },
   ]
 
   const DesktopNav = () => (
