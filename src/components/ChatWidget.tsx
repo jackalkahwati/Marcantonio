@@ -259,6 +259,11 @@ export default function ChatWidget() {
               { role: 'assistant', content: lines.join('\n') }
             ])
           }
+          // Add milestone tracker hint
+          setMessages(prev => [
+            ...prev,
+            { role: 'assistant', content: 'Milestone tracker: mark progress on advisors, teaming, compliance, and draft volumes to increase readiness.' }
+          ])
         }
       }
     } finally {

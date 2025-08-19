@@ -15,6 +15,8 @@ type ServicesConfig = { tiers: Tier[] }
 
 export default function PricingPage() {
   const [config, setConfig] = useState<ServicesConfig | null>(null)
+  const silverLink = process.env.NEXT_PUBLIC_STRIPE_SILVER_LINK || ''
+  const goldLink = process.env.NEXT_PUBLIC_STRIPE_GOLD_LINK || ''
 
   useEffect(() => {
     fetch('/chatbot/config/services.json')
@@ -52,20 +54,23 @@ export default function PricingPage() {
               {tier.id === 'free' ? (
                 <Link href="/about/contact" className="block text-center w-full px-4 py-2 border rounded-lg hover:bg-gray-50">Get Started</Link>
               ) : (
-                <button
-                  onClick={async () => {
-                    try {
-                      await fetch('/api/checkout', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ plan: tier.id }) })
-                      // reload to pick up entitlement cookie
-                      window.location.href = '/'
-                    } catch {
-                      // ignore
-                    }
-                  }}
-                  className="block text-center w-full px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
-                >
-                  Upgrade
-                </button>
+                silverLink && tier.id === 'silver' ? (
+                  <a href={silverLink} className="block text-center w-full px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">Upgrade</a>
+                ) : goldLink && tier.id === 'gold' ? (
+                  <a href={goldLink} className="block text-center w-full px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">Upgrade</a>
+                ) : (
+                  <button
+                    onClick={async () => {
+                      try {
+                        await fetch('/api/checkout', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ plan: tier.id }) })
+                        window.location.href = '/'
+                      } catch {}
+                    }}
+                    className="block text-center w-full px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+                  >
+                    Upgrade
+                  </button>
+                )
               )}
             </div>
           ))}
