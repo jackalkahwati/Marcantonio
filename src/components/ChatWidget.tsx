@@ -120,22 +120,31 @@ export default function ChatWidget() {
   function buildAssessment(): string {
     const score = scoreReadiness()
     const level = !weights ? 'Moderate' : score >= weights.thresholds.high ? 'High' : score >= weights.thresholds.medium ? 'Moderate' : 'Early'
-    const oppSummary = opps?.windows?.map(w => `${w.label}: ${w.count} (ends ${w.windowEnds})`).join(' | ')
-    const citations = buildCitations()
-    const partnerHints = partners.slice(0, 2).map(p => p.name).join(', ')
-    const base = [
-      `Readiness Score: ${score} (${level})`,
-      oppSummary ? `Upcoming windows: ${oppSummary}` : undefined,
-      'Next steps: strengthen advisor credibility, identify a prime/partner, and align with target stakeholders.',
-      partnerHints ? `Potential partners: ${partnerHints}` : undefined,
-      citations.length ? `Sources:\n- ${citations.join('\n- ')}` : undefined,
-      SAFE_DISCLAIMER
-    ].filter(Boolean)
-    if (plan !== 'free') {
-      // Silver/Gold: include mini milestone tracker overview
-      base.splice(3, 0, 'Milestones: 1) Advisor lined up 2) Prime/teaming identified 3) Compliance docs prepped 4) Draft technical volume')
+    const oppLines = (opps?.windows || []).map(w => `- ${w.label}: ${w.count} (ends ${w.windowEnds})`)
+    const partnerHints = partners.slice(0, 2).map(p => p.name)
+    const lines: string[] = []
+    lines.push('Rapid Capability Assessment')
+    lines.push(`- Readiness Score: ${score} (${level})`)
+    if (oppLines.length) {
+      lines.push('- Upcoming Windows:')
+      lines.push(...oppLines.map(l => `  ${l}`))
     }
-    return base.join('\n')
+    if (plan !== 'free') {
+      lines.push('- Milestones:')
+      lines.push('  1) Advisor lined up')
+      lines.push('  2) Prime/teaming identified')
+      lines.push('  3) Compliance docs prepped (CMMC/ATO)')
+      lines.push('  4) Draft technical volume')
+    }
+    lines.push('- Next Steps:')
+    lines.push('  • Strengthen advisor credibility')
+    lines.push('  • Identify a prime/partner aligned to mission')
+    lines.push('  • Align with target stakeholders and deadlines')
+    if (partnerHints.length) {
+      lines.push(`- Potential Partners: ${partnerHints.join(', ')}`)
+    }
+    lines.push(`- ${SAFE_DISCLAIMER}`)
+    return lines.join('\n')
   }
 
   function tokenize(text: string): string[] {
@@ -165,30 +174,8 @@ export default function ChatWidget() {
     return top
   }
 
-  function buildCitationSnippets(): string[] {
-    if (!searchIndex || !searchIndex.pages?.length) return []
-    const context = buildUserContext().toLowerCase()
-    if (!context) return []
-    const tokens = tokenize(context)
-    const pages = searchIndex.pages
-    const snippets: string[] = []
-    for (const p of pages) {
-      const lower = p.text.toLowerCase()
-      let idx = -1
-      for (const t of tokens) {
-        idx = lower.indexOf(t)
-        if (idx >= 0) break
-      }
-      if (idx >= 0) {
-        const start = Math.max(0, idx - 140)
-        const end = Math.min(p.text.length, idx + 140)
-        const snippet = p.text.substring(start, end).replace(/\s+/g, ' ').trim()
-        snippets.push(`${p.route} — “${snippet}”`)
-      }
-      if (snippets.length >= 2) break
-    }
-    return snippets
-  }
+  // Disable snippet generation to avoid code-like fragments in chat output
+  function buildCitationSnippets(): string[] { return [] }
 
   async function handleSend() {
     if (!input.trim()) return
@@ -245,9 +232,7 @@ export default function ChatWidget() {
         const assessment = buildAssessment()
         setMessages(prev => [
           ...prev,
-          { role: 'assistant', content: 'Thanks — here is your Rapid Capability Assessment summary:' },
-          { role: 'assistant', content: assessment },
-          ...buildCitationSnippets().map(s => ({ role: 'assistant' as const, content: s }))
+          { role: 'assistant', content: assessment }
         ])
         setAssessmentReady(true)
         // Optionally, reset cycle for follow-up
