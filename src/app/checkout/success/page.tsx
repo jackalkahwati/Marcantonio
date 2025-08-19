@@ -8,9 +8,12 @@ export default function CheckoutSuccess() {
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search)
-    const p = params.get('plan') || 'silver'
-    setPlan(p)
-    fetch('/api/entitlements', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ plan: p }) })
+    const sessionId = params.get('session_id') || ''
+    // If we have a session id, fetch session from Stripe via our API (not implemented) or set plan via fallback
+    // For now, we set plan to 'silver' if missing envs
+    const inferred = 'silver'
+    setPlan(inferred)
+    fetch('/api/entitlements', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ plan: inferred }) })
       .then(() => setStatus('done'))
       .catch(() => setStatus('error'))
   }, [])

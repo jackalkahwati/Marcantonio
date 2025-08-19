@@ -10,7 +10,7 @@ export async function POST(request: Request) {
 
     const sk = process.env.STRIPE_SECRET_KEY
     const priceId = body.plan === 'silver' ? process.env.STRIPE_PRICE_SILVER : process.env.STRIPE_PRICE_GOLD
-    const successUrl = (process.env.NEXT_PUBLIC_SITE_URL || '') + `/checkout/success?plan=${body.plan}`
+    const successUrl = (process.env.NEXT_PUBLIC_SITE_URL || '') + `/checkout/success?session_id={CHECKOUT_SESSION_ID}`
     const cancelUrl = (process.env.NEXT_PUBLIC_SITE_URL || '') + '/pricing?canceled=1'
 
     if (sk && priceId) {
