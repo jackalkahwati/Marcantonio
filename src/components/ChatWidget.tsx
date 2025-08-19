@@ -2,6 +2,7 @@
 
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import Link from 'next/link'
+import dynamic from 'next/dynamic'
 
 type Message = { role: 'assistant' | 'user'; content: string }
 
@@ -34,6 +35,7 @@ type SearchPage = { route: string; text: string }
 type SearchIndex = { pages: SearchPage[] }
 
 export default function ChatWidget() {
+  const Milestones = useMemo(() => dynamic(() => import('./Milestones'), { ssr: false }), [])
   const [open, setOpen] = useState(true)
   const [input, setInput] = useState('')
   const [loading, setLoading] = useState(false)

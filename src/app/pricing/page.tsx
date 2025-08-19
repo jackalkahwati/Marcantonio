@@ -52,7 +52,20 @@ export default function PricingPage() {
               {tier.id === 'free' ? (
                 <Link href="/about/contact" className="block text-center w-full px-4 py-2 border rounded-lg hover:bg-gray-50">Get Started</Link>
               ) : (
-                <Link href="/about/contact" className="block text-center w-full px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">Contact Sales</Link>
+                <button
+                  onClick={async () => {
+                    try {
+                      await fetch('/api/checkout', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ plan: tier.id }) })
+                      // reload to pick up entitlement cookie
+                      window.location.href = '/'
+                    } catch {
+                      // ignore
+                    }
+                  }}
+                  className="block text-center w-full px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+                >
+                  Upgrade
+                </button>
               )}
             </div>
           ))}
