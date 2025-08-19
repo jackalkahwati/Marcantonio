@@ -49,6 +49,7 @@ export default function ChatWidget() {
   const [searchIndex, setSearchIndex] = useState<SearchIndex | null>(null)
   const [assessmentReady, setAssessmentReady] = useState(false)
   const [showUpgrade, setShowUpgrade] = useState(false)
+  const [partners, setPartners] = useState<Array<{ name: string; website?: string; tags?: string[]; notes?: string }>>([])
 
   const endRef = useRef<HTMLDivElement>(null)
 
@@ -63,11 +64,13 @@ export default function ChatWidget() {
       fetch('/chatbot/config/readiness-weights.json').then(r => r.json()),
       fetch('/chatbot/config/opportunities.json').then(r => r.json()),
       fetch('/search-index.json').then(r => r.ok ? r.json() : { pages: [] }),
-    ]).then(([s, w, o, si]) => {
+      fetch('/chatbot/config/partners.json').then(r => r.ok ? r.json() : []),
+    ]).then(([s, w, o, si, p]) => {
       setServices(s)
       setWeights(w)
       setOpps(o)
       setSearchIndex(si)
+      setPartners(p)
     }).catch(() => {})
   }, [])
 
@@ -106,10 +109,12 @@ export default function ChatWidget() {
     const level = !weights ? 'Moderate' : score >= weights.thresholds.high ? 'High' : score >= weights.thresholds.medium ? 'Moderate' : 'Early'
     const oppSummary = opps?.windows?.map(w => `${w.label}: ${w.count} (ends ${w.windowEnds})`).join(' | ')
     const citations = buildCitations()
+    const partnerHints = partners.slice(0, 2).map(p => p.name).join(', ')
     return [
       `Readiness Score: ${score} (${level})`,
       oppSummary ? `Upcoming windows: ${oppSummary}` : undefined,
       'Next steps: strengthen advisor credibility, identify a prime/partner, and align with target stakeholders.',
+      partnerHints ? `Potential partners: ${partnerHints}` : undefined,
       citations.length ? `Sources:\n- ${citations.join('\n- ')}` : undefined,
       SAFE_DISCLAIMER
     ].filter(Boolean).join('\n')
@@ -247,13 +252,17 @@ export default function ChatWidget() {
       <button
         aria-label="Open chat"
         onClick={() => setOpen(v => !v)}
-        className="fixed bottom-6 right-6 z-50 rounded-full bg-blue-600 text-white shadow-lg px-4 py-3 hover:bg-blue-700"
+        className="fixed bottom-6 right-4 sm:right-6 z-50 rounded-full bg-blue-600 text-white shadow-lg px-4 py-3 hover:bg-blue-700"
+        style={{ right: 'calc(env(safe-area-inset-right, 0px) + 1rem)' }}
       >
         {open ? 'Close' : 'Chat'}
       </button>
 
       {open && (
-        <div className="fixed bottom-20 right-6 z-50 w-80 sm:w-96 rounded-xl border border-gray-200 bg-white shadow-xl flex flex-col overflow-hidden max-h-[80vh]">
+        <div
+          className="fixed bottom-20 right-4 sm:right-6 z-50 w-[min(90vw,24rem)] sm:w-[24rem] rounded-xl border border-gray-200 bg-white shadow-xl flex flex-col overflow-hidden max-h-[80vh]"
+          style={{ right: 'calc(env(safe-area-inset-right, 0px) + 1rem)' }}
+        >
           <div className="px-4 py-3 border-b font-semibold">Marcantonio Assistant</div>
           <div className="flex-1 overflow-y-scroll px-4 py-3 space-y-3">
             {messages.map((m, i) => (

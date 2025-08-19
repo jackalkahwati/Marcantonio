@@ -1,0 +1,28 @@
+[
+  {
+    "name": "Goodman Technologies",
+    "website": "https://goodmantechnologies.example.com",
+    "tags": ["space", "propulsion", "manufacturing", "aerospace"],
+    "notes": "Emerging aerospace systems and propulsion partner; strong fit for Space Force teaming."
+  },
+  {
+    "name": "Boeing Defense, Space & Security",
+    "website": "https://www.boeing.com/defense/",
+    "tags": ["prime", "space", "air", "systems-integration"],
+    "notes": "Prime contractor; potential teaming for large programs and PoRs."
+  },
+  {
+    "name": "Lockheed Martin Space",
+    "website": "https://www.lockheedmartin.com/en-us/capabilities/space.html",
+    "tags": ["prime", "space", "satcom", "missile"],
+    "notes": "Prime with deep space domain; align for SDA/SF opportunities."
+  },
+  {
+    "name": "BAE Systems",
+    "website": "https://www.baesystems.com/en/home",
+    "tags": ["prime", "cyber", "ew", "sensor"],
+    "notes": "Prime with strong cyber/EW; helpful for CMMC/ATO posture."
+  }
+]
+
+
