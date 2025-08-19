@@ -22,7 +22,7 @@ export default function StickyCTA() {
   if (!isVisible) return null
 
   return (
-    <div className="fixed bottom-4 right-4 z-[60]">
+    <div className="fixed bottom-24 right-4 sm:bottom-6 sm:right-24 z-[40]">
       <Link
         href="/contact"
         className="group inline-flex items-center justify-center px-5 py-3 rounded-full shadow-lg bg-gradient-to-r from-yellow-400 to-yellow-500 text-black font-semibold hover:from-yellow-500 hover:to-yellow-600 transition-all"

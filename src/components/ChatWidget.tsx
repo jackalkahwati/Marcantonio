@@ -47,9 +47,10 @@ export default function ChatWidget() {
   const [open, setOpen] = useState(true)
   const [input, setInput] = useState('')
   const [loading, setLoading] = useState(false)
+  const FIRST_QUESTION = 'What problem are you solving and for whom in defense or space?'
   const [messages, setMessages] = useState<Message[]>([
     { role: 'assistant', content: 'Hi! I’m the Marcantonio assistant. I’ll ask a few questions to create a Rapid Capability Assessment.' },
-    { role: 'assistant', content: 'What problem are you solving and for whom in defense or space?' }
+    { role: 'assistant', content: FIRST_QUESTION }
   ])
 
   const [services, setServices] = useState<ServicesConfig | null>(null)
@@ -119,10 +120,10 @@ export default function ChatWidget() {
   )
 
   const [qIndex, setQIndex] = useState(0)
-  const [asked, setAsked] = useState<Set<string>>(new Set())
+  const [asked, setAsked] = useState<Set<string>>(new Set([FIRST_QUESTION]))
   const [answers, setAnswers] = useState<{ [k: string]: string }>({})
   const fallbackQuestions = [
-    'What problem are you solving and for whom in defense or space?',
+    FIRST_QUESTION,
     'What outcome would make this engagement a win in the next 90 days?',
     'What can you demonstrate today (capabilities, TRL, key evidence)?',
     'Which missions or programs are the best fit?',
@@ -378,7 +379,7 @@ export default function ChatWidget() {
       <button
         aria-label="Open chat"
         onClick={() => setOpen(v => !v)}
-        className="fixed bottom-6 right-4 sm:right-6 z-50 rounded-full bg-blue-600 text-white shadow-lg px-4 py-3 hover:bg-blue-700"
+        className="fixed bottom-6 right-4 sm:right-6 z-[70] rounded-full bg-blue-600 text-white shadow-lg px-4 py-3 hover:bg-blue-700"
         style={{ right: 'calc(env(safe-area-inset-right, 0px) + 1rem)' }}
       >
         {open ? 'Close' : 'Chat'}
@@ -386,7 +387,7 @@ export default function ChatWidget() {
 
       {open && (
         <div
-          className="fixed bottom-20 right-4 sm:right-6 z-50 w-[min(90vw,24rem)] sm:w-[24rem] rounded-xl border border-gray-200 bg-white shadow-xl flex flex-col overflow-hidden max-h-[80vh]"
+          className="fixed bottom-24 right-4 sm:bottom-20 sm:right-6 z-[65] w-[min(90vw,24rem)] sm:w-[24rem] rounded-xl border border-gray-200 bg-white shadow-xl flex flex-col overflow-hidden max-h-[80vh]"
           style={{ right: 'calc(env(safe-area-inset-right, 0px) + 1rem)' }}
         >
           <div className="px-4 py-3 border-b font-semibold">Marcantonio Assistant</div>
