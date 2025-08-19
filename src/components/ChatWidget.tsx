@@ -106,6 +106,34 @@ export default function ChatWidget() {
   )
 
   const [qIndex, setQIndex] = useState(0)
+  const [asked, setAsked] = useState<Set<string>>(new Set())
+  const [answers, setAnswers] = useState<{ [k: string]: string }>({})
+
+  function updateAnswers(userText: string) {
+    const t = userText.toLowerCase()
+    const next = { ...answers }
+    if (/(trl\s*\d|trl\s*[1-9])/.test(t)) next.trl = t
+    if (/ota|contract\b|award\b/.test(t)) next.outcome = 'ota'
+    if (/sda|space\s*force|victus/.test(t)) next.mission = 'sda'
+    if (/mda|missile defense/.test(t)) next.mission = 'mda'
+    if (/cmmc|itar|ear|ato|il5|il6/.test(t)) next.compliance = t
+    if (/advisor|prime|lockheed|boeing|bae|partner/.test(t)) next.partners = t
+    if (/sbir|sttr|baa/.test(t)) next.opps = t
+    setAnswers(next)
+  }
+
+  function pickNextQuestion(): string | null {
+    if (answers.outcome === 'ota' && !asked.has('ota_sponsor')) return 'For an OTA, do you have a government sponsor or customer identified?'
+    if (answers.mission === 'sda' && !asked.has('sda_fit')) return 'Which SDA lines of effort fit best (e.g., tracking, transport, custody)?'
+    if (answers.mission === 'mda' && !asked.has('mda_fit')) return 'For MDA, which program or mission thread are you targeting?'
+    if (answers.trl && !asked.has('trl_follow')) return /trl\s*(7|8|9)/.test(answers.trl) ? 'What operational environments have you validated in (relevant vs operational)?' : 'What are the top technical risks you are de‑risking next quarter?'
+    if (answers.compliance && !asked.has('compliance_follow')) return 'What is your ATO path and hosting posture (IL5/IL6, enclave, sponsor)?'
+    if (answers.partners && !asked.has('partners_follow')) return 'Name any primes/advisors you can leverage, and any gaps we should help fill.'
+    for (const q of ['What problem are you solving and for whom in defense or space?','What outcome would make this engagement a win in the next 90 days?','What can you demonstrate today (capabilities, TRL, key evidence)?','Which missions or programs are the best fit?','What compliance/security have you met or planned (ATO path, ITAR/EAR, CMMC)?','What past performance or pilots best map to defense use?','Do you have partners/advisors that strengthen your bid?']) {
+      if (!asked.has(q)) return q
+    }
+    return null
+  }
 
   function scoreReadiness(): number {
     if (!weights) return 50
@@ -222,12 +250,14 @@ export default function ChatWidget() {
 
     setLoading(true)
     try {
-      // Simple deterministic bot: ask next question, or produce assessment after core questions
-      const nextQIndex = qIndex + 1
-      if (nextQIndex < questions.length) {
-        const nextQ = questions[nextQIndex]
+      // Dynamic question flow
+      updateAnswers(userMsg.content)
+      const nextQ = pickNextQuestion()
+      if (nextQ && asked.size < 7) {
+        const nextAsked = new Set(asked)
+        nextAsked.add(nextQ)
+        setAsked(nextAsked)
         setMessages(prev => [...prev, { role: 'assistant', content: nextQ }])
-        setQIndex(nextQIndex)
       } else {
         const assessment = buildAssessment()
         setMessages(prev => [
@@ -236,7 +266,7 @@ export default function ChatWidget() {
         ])
         setAssessmentReady(true)
         // Optionally, reset cycle for follow-up
-        setQIndex(0)
+        setQIndex(0); setAsked(new Set()); setAnswers({})
         if (plan === 'free') {
           // Prompt upgrade right after assessment for free plan
           setShowUpgrade(true)
