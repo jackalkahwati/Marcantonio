@@ -8,7 +8,7 @@ export async function POST(request: Request) {
 
   const buf = Buffer.from(await request.arrayBuffer())
   const sig = request.headers.get('stripe-signature') || ''
-  const stripe = new Stripe(sk, { apiVersion: '2023-10-16' })
+  const stripe = new Stripe(sk)
 
   let event: Stripe.Event
   try {
