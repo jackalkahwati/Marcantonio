@@ -269,6 +269,27 @@ export default function ChatWidget() {
             ...prev,
             { role: 'assistant', content: 'Download a proposal outline template: /chatbot/templates/proposal-outline.md' }
           ])
+          // Render a visual milestone tracker in-panel
+          setTimeout(() => {
+            const container = document.querySelector('#chat-milestones')
+            if (container) {
+              const el = document.createElement('div')
+              container.innerHTML = ''
+              container.appendChild(el)
+              // hydrate React component
+              import('react-dom').then(({ createRoot }) => {
+                const root = (createRoot as any)(el)
+                root.render(
+                  <Milestones items={[
+                    { label: 'Advisor identified', done: true },
+                    { label: 'Prime/teaming partner engaged' },
+                    { label: 'Compliance docs prepared (CMMC/ATO)' },
+                    { label: 'Draft technical volume' }
+                  ]} />
+                )
+              })
+            }
+          }, 0)
         }
       }
     } finally {
@@ -309,6 +330,8 @@ export default function ChatWidget() {
               </div>
             ))}
             {loading && <div className="text-sm text-gray-500">Thinking…</div>}
+            {/* Mount point for milestone tracker */}
+            <div id="chat-milestones" className="my-3" />
             <div ref={endRef} />
           </div>
           {showUpgrade && (
