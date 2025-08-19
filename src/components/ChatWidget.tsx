@@ -17,7 +17,15 @@ type ReadinessWeights = {
 
 type Opportunities = {
   lastUpdated: string
-  windows: Array<{ id: string; label: string; count: number; windowEnds: string; note?: string }>
+  windows: Array<{
+    id: string;
+    label: string;
+    count: number;
+    windowEnds: string;
+    note?: string;
+    tags?: string[];
+    timeline?: Array<{ label: string; offsetDays: number }>
+  }>
 }
 
 const SAFE_DISCLAIMER = 'Do not share sensitive or classified information.'
@@ -250,7 +258,7 @@ export default function ChatWidget() {
           const tags = [] as string[]
           if (userText.includes('victus') || userText.includes('sda')) tags.push('sda', 'victus-haze', 'space')
           if (userText.includes('cmmc') || userText.includes('il5') || userText.includes('il6')) tags.push('ota', 'sponsor')
-          const tailored = (opps?.windows || []).filter(w => !w.tags || w.tags.some(t => tags.includes(t)))
+          const tailored = ((opps?.windows || []) as any[]).filter(w => !Array.isArray(w.tags) || w.tags.some((t: string) => tags.includes(t)))
           if (tailored.length) {
             const lines = tailored.map(w => `- ${w.label}: ends ${w.windowEnds}`)
             setMessages(prev => [
@@ -274,27 +282,7 @@ export default function ChatWidget() {
             ...prev,
             { role: 'assistant', content: 'Request a priority introduction: send company, target, and email to /api/introductions (POST JSON) or contact us via /about/contact.' }
           ])
-          // Render a visual milestone tracker in-panel
-          setTimeout(() => {
-            const container = document.querySelector('#chat-milestones')
-            if (container) {
-              const el = document.createElement('div')
-              container.innerHTML = ''
-              container.appendChild(el)
-              // hydrate React component
-              import('react-dom').then(({ createRoot }) => {
-                const root = (createRoot as any)(el)
-                root.render(
-                  <Milestones items={[
-                    { label: 'Advisor identified', done: true },
-                    { label: 'Prime/teaming partner engaged' },
-                    { label: 'Compliance docs prepared (CMMC/ATO)' },
-                    { label: 'Draft technical volume' }
-                  ]} />
-                )
-              })
-            }
-          }, 0)
+          // Visual milestone tracker will render inline below
         }
       }
     } finally {
@@ -335,8 +323,16 @@ export default function ChatWidget() {
               </div>
             ))}
             {loading && <div className="text-sm text-gray-500">Thinking…</div>}
-            {/* Mount point for milestone tracker */}
-            <div id="chat-milestones" className="my-3" />
+            {plan !== 'free' && (
+              <div className="my-3">
+                <Milestones items={[
+                  { label: 'Advisor identified', done: true },
+                  { label: 'Prime/teaming partner engaged' },
+                  { label: 'Compliance docs prepared (CMMC/ATO)' },
+                  { label: 'Draft technical volume' }
+                ]} />
+              </div>
+            )}
             <div ref={endRef} />
           </div>
           {showUpgrade && (
