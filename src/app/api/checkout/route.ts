@@ -14,7 +14,7 @@ export async function POST(request: Request) {
     const cancelUrl = (process.env.NEXT_PUBLIC_SITE_URL || '') + '/pricing?canceled=1'
 
     if (sk && priceId) {
-      const stripe = new Stripe(sk, { apiVersion: '2023-10-16' })
+      const stripe = new Stripe(sk)
       const session = await stripe.checkout.sessions.create({
         mode: 'subscription',
         line_items: [{ price: priceId, quantity: 1 }],
