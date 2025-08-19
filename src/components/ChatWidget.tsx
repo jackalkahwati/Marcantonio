@@ -269,6 +269,11 @@ export default function ChatWidget() {
             ...prev,
             { role: 'assistant', content: 'Download a proposal outline template: /chatbot/templates/proposal-outline.md' }
           ])
+          // Priority introduction CTA
+          setMessages(prev => [
+            ...prev,
+            { role: 'assistant', content: 'Request a priority introduction: send company, target, and email to /api/introductions (POST JSON) or contact us via /about/contact.' }
+          ])
           // Render a visual milestone tracker in-panel
           setTimeout(() => {
             const container = document.querySelector('#chat-milestones')
