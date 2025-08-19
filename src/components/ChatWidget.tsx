@@ -267,6 +267,19 @@ export default function ChatWidget() {
               { role: 'assistant', content: lines.join('\n') }
             ])
           }
+          // Live external signals (no-keys): news and awards
+          try {
+            const r = await fetch(`/api/signals?tags=${encodeURIComponent(tags.join(','))}`, { cache: 'no-store' })
+            const d = await r.json()
+            if (Array.isArray(d?.items) && d.items.length) {
+              const top = d.items.slice(0, 5).map((it: any) => `- [${it.source}] ${it.title}`)
+              setMessages(prev => [
+                ...prev,
+                { role: 'assistant', content: 'Live signals:' },
+                { role: 'assistant', content: top.join('\n') }
+              ])
+            }
+          } catch {}
           // Add milestone tracker hint
           setMessages(prev => [
             ...prev,

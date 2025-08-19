@@ -53,6 +53,16 @@ function extractText(tsx) {
   // Remove JS/TS expressions within braces
   text = text.replace(/\{[^}]*\}/g, ' ')
 
+  // Remove common code-like lines
+  text = text.replace(/^\s*'use client'\s*$/gmi, ' ')
+  text = text.replace(/^\s*const\s+[^\n]*$/gmi, ' ')
+  text = text.replace(/=>/g, ' ')
+  text = text.replace(/\b(className|onClick|href|props|useState|useEffect)\b/g, ' ')
+
+  // Remove short bracketed sequences that look like arrays/objects
+  text = text.replace(/\[[^\]]{0,500}\]/g, ' ')
+  text = text.replace(/\{[^\}]{0,500}\}/g, ' ')
+
   // Collapse whitespace
   text = text.replace(/\s+/g, ' ').trim()
   // Remove obvious code-like tokens
