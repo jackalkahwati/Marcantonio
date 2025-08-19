@@ -237,7 +237,14 @@ export default function ChatWidget() {
         setAssessmentReady(true)
         // Optionally, reset cycle for follow-up
         setQIndex(0)
-        if (plan !== 'free') {
+        if (plan === 'free') {
+          // Prompt upgrade right after assessment for free plan
+          setShowUpgrade(true)
+          setMessages(prev => [
+            ...prev,
+            { role: 'assistant', content: 'Unlock Silver/Gold for tailored opportunities, live signals, milestone tracker, and proposal templates. See /pricing or contact us.' }
+          ])
+        } else {
           // Show a simple tailored opportunities list
           const userText = buildUserContext().toLowerCase()
           const tags = [] as string[]
