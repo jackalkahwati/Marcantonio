@@ -50,6 +50,7 @@ export default function ChatWidget() {
   const [assessmentReady, setAssessmentReady] = useState(false)
   const [showUpgrade, setShowUpgrade] = useState(false)
   const [partners, setPartners] = useState<Array<{ name: string; website?: string; tags?: string[]; notes?: string }>>([])
+  const [plan, setPlan] = useState<'free' | 'silver' | 'gold'>('free')
 
   const endRef = useRef<HTMLDivElement>(null)
 
@@ -65,12 +66,14 @@ export default function ChatWidget() {
       fetch('/chatbot/config/opportunities.json').then(r => r.json()),
       fetch('/search-index.json').then(r => r.ok ? r.json() : { pages: [] }),
       fetch('/chatbot/config/partners.json').then(r => r.ok ? r.json() : []),
-    ]).then(([s, w, o, si, p]) => {
+      fetch('/api/entitlements', { cache: 'no-store' }).then(r => r.ok ? r.json() : { plan: 'free' }),
+    ]).then(([s, w, o, si, p, ent]) => {
       setServices(s)
       setWeights(w)
       setOpps(o)
       setSearchIndex(si)
       setPartners(p)
+      if (ent?.plan === 'silver' || ent?.plan === 'gold') setPlan(ent.plan)
     }).catch(() => {})
   }, [])
 
@@ -110,14 +113,19 @@ export default function ChatWidget() {
     const oppSummary = opps?.windows?.map(w => `${w.label}: ${w.count} (ends ${w.windowEnds})`).join(' | ')
     const citations = buildCitations()
     const partnerHints = partners.slice(0, 2).map(p => p.name).join(', ')
-    return [
+    const base = [
       `Readiness Score: ${score} (${level})`,
       oppSummary ? `Upcoming windows: ${oppSummary}` : undefined,
       'Next steps: strengthen advisor credibility, identify a prime/partner, and align with target stakeholders.',
       partnerHints ? `Potential partners: ${partnerHints}` : undefined,
       citations.length ? `Sources:\n- ${citations.join('\n- ')}` : undefined,
       SAFE_DISCLAIMER
-    ].filter(Boolean).join('\n')
+    ].filter(Boolean)
+    if (plan !== 'free') {
+      // Silver/Gold: include mini milestone tracker overview
+      base.splice(3, 0, 'Milestones: 1) Advisor lined up 2) Prime/teaming identified 3) Compliance docs prepped 4) Draft technical volume')
+    }
+    return base.join('\n')
   }
 
   function tokenize(text: string): string[] {
@@ -234,6 +242,22 @@ export default function ChatWidget() {
         setAssessmentReady(true)
         // Optionally, reset cycle for follow-up
         setQIndex(0)
+        if (plan !== 'free') {
+          // Show a simple tailored opportunities list
+          const userText = buildUserContext().toLowerCase()
+          const tags = [] as string[]
+          if (userText.includes('victus') || userText.includes('sda')) tags.push('sda', 'victus-haze', 'space')
+          if (userText.includes('cmmc') || userText.includes('il5') || userText.includes('il6')) tags.push('ota', 'sponsor')
+          const tailored = (opps?.windows || []).filter(w => !w.tags || w.tags.some(t => tags.includes(t)))
+          if (tailored.length) {
+            const lines = tailored.map(w => `- ${w.label}: ends ${w.windowEnds}`)
+            setMessages(prev => [
+              ...prev,
+              { role: 'assistant', content: 'Tailored opportunities:' },
+              { role: 'assistant', content: lines.join('\n') }
+            ])
+          }
+        }
       }
     } finally {
       setLoading(false)

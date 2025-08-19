@@ -6,21 +6,39 @@
       "label": "SBIR/STTR Phase I",
       "count": 3,
       "windowEnds": "2025-03-15",
-      "note": "Upcoming topics aligned to autonomy and space systems"
+      "note": "Upcoming topics aligned to autonomy and space systems",
+      "tags": ["sbir", "space", "autonomy", "sme", "pilot"],
+      "timeline": [
+        { "label": "Topic release", "offsetDays": -30 },
+        { "label": "White paper due", "offsetDays": -14 },
+        { "label": "Full proposal due", "offsetDays": 0 }
+      ]
     },
     {
       "id": "sda_baa",
       "label": "SDA BAA",
       "count": 2,
       "windowEnds": "2025-02-28",
-      "note": "Time-sensitive; teaming and advisor credibility recommended"
+      "note": "Time-sensitive; teaming and advisor credibility recommended",
+      "tags": ["space", "sda", "victus-haze", "satcom", "sda-baa"],
+      "timeline": [
+        { "label": "RFI window", "offsetDays": -21 },
+        { "label": "Abstract due", "offsetDays": -7 },
+        { "label": "Proposal due", "offsetDays": 0 }
+      ]
     },
     {
       "id": "ota_paths",
       "label": "OTA pathways",
       "count": 2,
       "windowEnds": "2025-04-01",
-      "note": "Requires sponsor alignment and rapid capability articulation"
+      "note": "Requires sponsor alignment and rapid capability articulation",
+      "tags": ["ota", "sponsor", "pilot", "rapid"],
+      "timeline": [
+        { "label": "Sponsor alignment", "offsetDays": -28 },
+        { "label": "Technical volume", "offsetDays": -10 },
+        { "label": "Budget & CLINs", "offsetDays": -3 }
+      ]
     }
   ]
 }
