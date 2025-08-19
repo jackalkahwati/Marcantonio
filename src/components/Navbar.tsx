@@ -96,7 +96,7 @@ export default function Navbar() {
             </div>
           )
         }
-        return <NavLink key={link.href} href={link.href!} label={link.label} />
+        return null
       })}
       <Link
         href="/contact"
@@ -154,11 +154,7 @@ export default function Navbar() {
               </div>
             )
           }
-          return (
-            <div key={link.href} className="px-4">
-              <NavLink {...link} />
-            </div>
-          )
+          return null
         })}
         <Link
           href="/contact"
