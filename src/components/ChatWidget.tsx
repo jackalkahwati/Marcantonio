@@ -284,18 +284,18 @@ export default function ChatWidget() {
               </div>
             </div>
           )}
-          <div className="px-3 py-3 border-t flex items-center gap-2">
+          <div className="px-3 py-3 border-t flex items-center gap-2 flex-wrap pb-[env(safe-area-inset-bottom,0px)]">
             <input
               value={input}
               onChange={e => setInput(e.target.value)}
               onKeyDown={onKeyDown}
               placeholder="Type your answer…"
-              className="flex-1 px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
+              className="flex-1 min-w-0 px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
             />
             <button
               onClick={handleSend}
               disabled={loading}
-              className="px-4 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50"
+              className="shrink-0 px-4 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50"
             >
               Send
             </button>
@@ -314,7 +314,7 @@ export default function ChatWidget() {
                     // noop
                   }
                 }}
-                className="px-3 py-2 rounded-lg border text-sm"
+                className="shrink-0 px-3 py-2 rounded-lg border text-sm"
                 title="Download assessment PDF"
               >
                 PDF

@@ -9,6 +9,11 @@ const projectRoot = path.resolve(process.cwd())
 const appDir = path.join(projectRoot, 'src', 'app')
 const outputDir = path.join(projectRoot, 'public')
 const outputFile = path.join(outputDir, 'search-index.json')
+const ignoreRoutes = new Set([
+  '/about/contact',
+  '/contact',
+  '/pricing'
+])
 
 function isPageFile(filePath) {
   return filePath.endsWith(path.join('page.tsx'))
@@ -50,6 +55,13 @@ function extractText(tsx) {
 
   // Collapse whitespace
   text = text.replace(/\s+/g, ' ').trim()
+  // Remove obvious code-like tokens
+  const codePatterns = [
+    /\b(use client|className|onClick|href|const|let|var|function|return|async|await)\b/gi
+  ]
+  for (const re of codePatterns) {
+    text = text.replace(re, ' ')
+  }
   return text
 }
 
@@ -66,6 +78,8 @@ function buildIndex() {
       const content = fs.readFileSync(file, 'utf8')
       const text = extractText(content)
       const route = deriveRoute(file)
+      if (ignoreRoutes.has(route)) continue
+      if (!text || text.length < 60) continue
       index.push({ route, text })
     } catch (e) {
       console.warn('Failed to index', file, e?.message || e)
