@@ -61,12 +61,25 @@ export default function ChatWidget() {
   const [showUpgrade, setShowUpgrade] = useState(false)
   const [partners, setPartners] = useState<Array<{ name: string; website?: string; tags?: string[]; notes?: string }>>([])
   const [plan, setPlan] = useState<'free' | 'silver' | 'gold'>('free')
+  const [enhanced, setEnhanced] = useState(false)
+  const [llm, setLlm] = useState<any>(null)
 
   const endRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     endRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [messages, open])
+
+  useEffect(() => {
+    if (!enhanced || llm) return
+    ;(async () => {
+      try {
+        const webllm = await import('@mlc-ai/web-llm')
+        const engine = await (webllm as any).CreateMLCEngine({ model: 'Qwen2.5-1.5B-Instruct-q4f16_1-MLC' })
+        setLlm(engine)
+      } catch {}
+    })()
+  }, [enhanced, llm])
 
   useEffect(() => {
     // Load configs
@@ -108,6 +121,15 @@ export default function ChatWidget() {
   const [qIndex, setQIndex] = useState(0)
   const [asked, setAsked] = useState<Set<string>>(new Set())
   const [answers, setAnswers] = useState<{ [k: string]: string }>({})
+  const fallbackQuestions = [
+    'What problem are you solving and for whom in defense or space?',
+    'What outcome would make this engagement a win in the next 90 days?',
+    'What can you demonstrate today (capabilities, TRL, key evidence)?',
+    'Which missions or programs are the best fit?',
+    'What compliance/security have you met or planned (ATO path, ITAR/EAR, CMMC)?',
+    'What past performance or pilots best map to defense use?',
+    'Do you have partners/advisors that strengthen your bid?'
+  ]
 
   function updateAnswers(userText: string) {
     const t = userText.toLowerCase()
@@ -122,15 +144,30 @@ export default function ChatWidget() {
     setAnswers(next)
   }
 
-  function pickNextQuestion(): string | null {
-    if (answers.outcome === 'ota' && !asked.has('ota_sponsor')) return 'For an OTA, do you have a government sponsor or customer identified?'
-    if (answers.mission === 'sda' && !asked.has('sda_fit')) return 'Which SDA lines of effort fit best (e.g., tracking, transport, custody)?'
-    if (answers.mission === 'mda' && !asked.has('mda_fit')) return 'For MDA, which program or mission thread are you targeting?'
-    if (answers.trl && !asked.has('trl_follow')) return /trl\s*(7|8|9)/.test(answers.trl) ? 'What operational environments have you validated in (relevant vs operational)?' : 'What are the top technical risks you are de‑risking next quarter?'
-    if (answers.compliance && !asked.has('compliance_follow')) return 'What is your ATO path and hosting posture (IL5/IL6, enclave, sponsor)?'
-    if (answers.partners && !asked.has('partners_follow')) return 'Name any primes/advisors you can leverage, and any gaps we should help fill.'
-    for (const q of ['What problem are you solving and for whom in defense or space?','What outcome would make this engagement a win in the next 90 days?','What can you demonstrate today (capabilities, TRL, key evidence)?','Which missions or programs are the best fit?','What compliance/security have you met or planned (ATO path, ITAR/EAR, CMMC)?','What past performance or pilots best map to defense use?','Do you have partners/advisors that strengthen your bid?']) {
-      if (!asked.has(q)) return q
+  function pickNextQuestion(): { key: string; text: string } | null {
+    if (enhanced && llm) {
+      const history = messages.map(m => `${m.role === 'assistant' ? 'Assistant' : 'User'}: ${m.content}`).join('\n')
+      const prompt = `You are a defense-focused intake assistant. Ask the SINGLE best next question in one sentence. Keep it concise and relevant.\n${history}\nNext question:`
+      // fire-and-forget; we will fall back to rules if it fails
+      try {
+        llm.chatCompletion([{ role: 'system', content: 'Defense UX. Concise. No sensitive data.' }, { role: 'user', content: prompt }]).then((out: any) => {
+          const q = String(out?.choices?.[0]?.message?.content || '').trim()
+          if (q && !asked.has(q) && asked.size < 7) {
+            const nextAsked = new Set(asked); nextAsked.add(q); setAsked(nextAsked)
+            setMessages(prev => [...prev, { role: 'assistant', content: q }])
+          }
+        })
+        return null
+      } catch {}
+    }
+    if (answers.outcome === 'ota' && !asked.has('ota_sponsor')) return { key: 'ota_sponsor', text: 'For an OTA, do you have a government sponsor or customer identified?' }
+    if (answers.mission === 'sda' && !asked.has('sda_fit')) return { key: 'sda_fit', text: 'Which SDA lines of effort fit best (e.g., tracking, transport, custody)?' }
+    if (answers.mission === 'mda' && !asked.has('mda_fit')) return { key: 'mda_fit', text: 'For MDA, which program or mission thread are you targeting?' }
+    if (answers.trl && !asked.has('trl_follow')) return { key: 'trl_follow', text: /trl\s*(7|8|9)/.test(answers.trl) ? 'What operational environments have you validated in (relevant vs operational)?' : 'What are the top technical risks you are de‑risking next quarter?' }
+    if (answers.compliance && !asked.has('compliance_follow')) return { key: 'compliance_follow', text: 'What is your ATO path and hosting posture (IL5/IL6, enclave, sponsor)?' }
+    if (answers.partners && !asked.has('partners_follow')) return { key: 'partners_follow', text: 'Name any primes/advisors you can leverage, and any gaps we should help fill.' }
+    for (const q of fallbackQuestions) {
+      if (!asked.has(q)) return { key: q, text: q }
     }
     return null
   }
@@ -255,9 +292,9 @@ export default function ChatWidget() {
       const nextQ = pickNextQuestion()
       if (nextQ && asked.size < 7) {
         const nextAsked = new Set(asked)
-        nextAsked.add(nextQ)
+        nextAsked.add(nextQ.key)
         setAsked(nextAsked)
-        setMessages(prev => [...prev, { role: 'assistant', content: nextQ }])
+        setMessages(prev => [...prev, { role: 'assistant', content: nextQ.text }])
       } else {
         const assessment = buildAssessment()
         setMessages(prev => [
