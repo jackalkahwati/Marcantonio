@@ -34,7 +34,7 @@ type SearchPage = { route: string; text: string }
 type SearchIndex = { pages: SearchPage[] }
 
 export default function ChatWidget() {
-  const [open, setOpen] = useState(false)
+  const [open, setOpen] = useState(true)
   const [input, setInput] = useState('')
   const [loading, setLoading] = useState(false)
   const [messages, setMessages] = useState<Message[]>([
@@ -253,9 +253,9 @@ export default function ChatWidget() {
       </button>
 
       {open && (
-        <div className="fixed bottom-20 right-6 z-50 w-80 sm:w-96 rounded-xl border border-gray-200 bg-white shadow-xl flex flex-col overflow-hidden">
+        <div className="fixed bottom-20 right-6 z-50 w-80 sm:w-96 rounded-xl border border-gray-200 bg-white shadow-xl flex flex-col overflow-hidden max-h-[80vh]">
           <div className="px-4 py-3 border-b font-semibold">Marcantonio Assistant</div>
-          <div className="flex-1 overflow-y-auto px-4 py-3 space-y-3">
+          <div className="flex-1 overflow-y-scroll px-4 py-3 space-y-3">
             {messages.map((m, i) => (
               <div key={i} className={`text-sm ${m.role === 'assistant' ? 'text-gray-800' : 'text-gray-900'}`}>
                 <div className={`inline-block px-3 py-2 rounded-lg ${m.role === 'assistant' ? 'bg-gray-100' : 'bg-blue-600 text-white'}`}>
