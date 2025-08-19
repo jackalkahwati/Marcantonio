@@ -62,8 +62,13 @@ export default function PricingPage() {
                   <button
                     onClick={async () => {
                       try {
-                        await fetch('/api/checkout', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ plan: tier.id }) })
-                        window.location.href = '/'
+                        const r = await fetch('/api/checkout', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ plan: tier.id }) })
+                        const d = await r.json()
+                        if (d?.url) {
+                          window.location.href = d.url
+                        } else {
+                          window.location.href = '/'
+                        }
                       } catch {}
                     }}
                     className="block text-center w-full px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"

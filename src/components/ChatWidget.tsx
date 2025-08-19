@@ -264,6 +264,11 @@ export default function ChatWidget() {
             ...prev,
             { role: 'assistant', content: 'Milestone tracker: mark progress on advisors, teaming, compliance, and draft volumes to increase readiness.' }
           ])
+          // Proposal template download
+          setMessages(prev => [
+            ...prev,
+            { role: 'assistant', content: 'Download a proposal outline template: /chatbot/templates/proposal-outline.md' }
+          ])
         }
       }
     } finally {
