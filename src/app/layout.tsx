@@ -5,6 +5,7 @@ import StickyCTA from '@/components/StickyCTA'
 import Footer from '@/components/Footer'
 import ChatWidget from '@/components/ChatWidget'
 import { Toaster } from '@/components/ui/toaster'
+import { Analytics } from '@vercel/analytics/next'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -44,6 +45,7 @@ export default function RootLayout({
         <Toaster />
         <StickyCTA />
         <ChatWidget />
+        <Analytics />
       </body>
     </html>
   )

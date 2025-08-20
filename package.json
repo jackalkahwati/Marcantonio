@@ -9,9 +9,11 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@mlc-ai/web-llm": "^0.2.66",
     "@radix-ui/react-toast": "^1.2.4",
     "@sendinblue/client": "^3.3.1",
     "@types/d3": "^7.4.3",
+    "@vercel/analytics": "^1.5.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "d3": "^7.9.0",
@@ -25,8 +27,7 @@
     "react-force-graph-2d": "^1.27.0",
     "stripe": "^18.4.0",
     "tailwind-merge": "^2.6.0",
-    "vis-network": "^9.1.9",
-    "@mlc-ai/web-llm": "^0.2.66"
+    "vis-network": "^9.1.9"
   },
   "devDependencies": {
     "@tailwindcss/typography": "^0.5.15",
