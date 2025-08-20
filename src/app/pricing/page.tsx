@@ -67,7 +67,8 @@ export default function PricingPage() {
                         if (d?.url) {
                           window.location.href = d.url
                         } else {
-                          window.location.href = '/'
+                          // Fallback: stay on pricing (avoid sending user to homepage)
+                          window.location.href = '/pricing'
                         }
                       } catch {}
                     }}
