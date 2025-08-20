@@ -15,8 +15,8 @@ type ServicesConfig = { tiers: Tier[] }
 
 export default function PricingPage() {
   const [config, setConfig] = useState<ServicesConfig | null>(null)
-  const silverLink = process.env.NEXT_PUBLIC_STRIPE_SILVER_LINK || ''
-  const goldLink = process.env.NEXT_PUBLIC_STRIPE_GOLD_LINK || ''
+  const silverLink = process.env.NEXT_PUBLIC_STRIPE_SILVER_LINK || 'https://buy.stripe.com/5kQ7sL9zN1qW1JGakq0gw01'
+  const goldLink = process.env.NEXT_PUBLIC_STRIPE_GOLD_LINK || 'https://buy.stripe.com/dRm6oH6nBfhMbkg64a0gw00'
 
   useEffect(() => {
     fetch('/chatbot/config/services.json')
